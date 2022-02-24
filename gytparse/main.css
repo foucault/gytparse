@@ -1,0 +1,36 @@
+/*.header {
+  background: #3584e4;
+}*/
+
+.list_box {
+  background: transparent;
+  padding-right: 5px;
+}
+
+.entry:hover {
+  border: 1px solid #ccc;
+  background: darker(@bg_color);
+  box-shadow: 2px 2px 3px grey;
+}
+
+.entry {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 5px;
+}
+
+.entry_title {
+  font-weight: bold;
+}
+
+.outline {
+  border: 1px solid red;
+}
+
+.duration_label {
+  background: #444;
+  color: #eee;
+  padding: 3px 5px 3px 5px;
+  font-weight: bold;
+}

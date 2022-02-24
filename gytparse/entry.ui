@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="EntryContainer" parent="AdwBin">
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkBox" id="layout_box">
+        <property name="orientation">horizontal</property>
+        <property name="spacing">18</property>
+
+        <child>
+          <placeholder/>
+        </child>
+
+        <child>
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+            <property name="hexpand">true</property>
+            <property name="spacing">6</property>
+
+            <child>
+              <object class="GtkLabel" id="entry_title">
+                <style><class name="entry_title"/></style>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Title</property>
+                <property name="ellipsize">end</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="entry_subtitle">
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Subtitle</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkLabel" id="entry_uploader">
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Uploader</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkBox" id="button_box">
+            <property name="orientation">vertical</property>
+            <style><class name="linked"/></style>
+
+            <child>
+              <object class="GtkButton" id="play_button">
+                <property name="icon-name">media-playback-start</property>
+                <signal name="clicked" handler="entry_play_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="open_button">
+                <property name="icon_name">camera-video-symbolic</property>
+                <signal name="clicked" handler="entry_open_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="ave_button">
+                <property name="icon_name">document-save-symbolic</property>
+                <!--<signal name="clicked" handler="entry_open_clicked"/>-->
+              </object>
+            </child>
+
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>
+

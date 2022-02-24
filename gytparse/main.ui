@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="MainWindow" parent="AdwApplicationWindow">
+    <property name="title" translatable="yes">YouTube Parser</property>
+    <property name="default_width">500</property>
+    <property name="default_height">400</property>
+    <child>
+      <object class="GtkBox" id="top_content">
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="AdwHeaderBar">
+            <style><class name="header"/></style>
+          </object>
+        </child>
+        <child>
+          <object class="GtkGrid" id="main_grid">
+            <property name="margin_top">18</property>
+            <property name="margin_bottom">18</property>
+            <property name="margin_start">18</property>
+            <property name="margin_end">18</property>
+            <property name="row_spacing">9</property>
+            <property name="column_spacing">9</property>
+
+            <child>
+              <object class="GtkEntry" id="ui_entry">
+                <signal name="activate" handler="ui_entry_activated"/>
+                <property name="hexpand">true</property>
+                <property name="activates_default">false</property>
+                <property name="placeholder_text">Search for a video…</property>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="ui_button">
+                <property name="child">
+                  <object class="AdwButtonContent">
+                    <property name="icon_name">system-search</property>
+                    <property name="label" translatable="yes">_Search</property>
+                    <property name="use_underline">true</property>
+                  </object>
+                </property>
+                <signal name="clicked" handler="ui_button_clicked"/>
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkScrolledWindow" id="scrolled_win">
+                <property name="vscrollbar_policy">automatic</property>
+
+                <child>
+                  <object class="GtkListBox" id="list_box">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <property name="selection-mode">none</property>
+                    <property name="can-focus">false</property>
+                    <property name="activate-on-single-click">false</property>
+                  </object>
+                </child>
+
+                <layout>
+                  <property name="column">0</property>
+                  <property name="row">1</property>
+                  <property name="column_span">3</property>
+                </layout>
+
+              </object>
+            </child>
+
+          </object>
+        </child>
+      </object>
+    </child>
+  </template>
+</interface>

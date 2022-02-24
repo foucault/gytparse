@@ -1,0 +1,14 @@
+/target
+.*.swp
+*.pyc
+*.tmp
+/dist
+/build
+/_build
+/*.egg-info
+__pycache__
+*.so
+*.dll
+*.lib
+*.pyc
+*.bin

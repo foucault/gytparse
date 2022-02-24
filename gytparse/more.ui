@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="MoreWidget" parent="AdwBin">
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkBox">
+        <property name="orientation">horizontal</property>
+        <property name="margin_bottom">6</property>
+
+        <child>
+          <object class="GtkButton" id="more_button">
+            <signal name="clicked" handler="more_clicked"/>
+            <property name="label" translatable="yes">More…</property>
+            <property name="valign">center</property>
+            <property name="halign">center</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">False</property>
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+</interface>
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/gr/oscillate/gytparse">
+    <file>main.ui</file>
+    <file>entry.ui</file>
+    <file>main.css</file>
+    <file>more.ui</file>
+  </gresource>
+</gresources>
