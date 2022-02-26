@@ -2,8 +2,11 @@
   background: #3584e4;
 }*/
 
-.list_box {
+.transparent {
   background: transparent;
+}
+
+.list_box {
   padding-right: 5px;
 }
 

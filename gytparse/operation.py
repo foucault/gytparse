@@ -33,6 +33,10 @@ class VideoFetcher(GObject.GObject):
     def queue_video(self, url, target):
         self.videos.append({'url': url, 'target': target, 'offset': 0, 'totalsize': 0})
 
+    def unqueue_video(self, url):
+        # how ??
+        pass
+
     def __fetch_inner(self, video):
         url = video['url']
         target = video['target']
@@ -50,18 +54,20 @@ class VideoFetcher(GObject.GObject):
             'logger': _VideoFetchLogger()
         }
 
-        with youtube_dl.YoutubeDL(opts) as ydl:
-            result = ydl.extract_info(url, download=False)
-            totalfilesize = 0
-            for fmt in result['requested_formats']:
-                totalfilesize += fmt['filesize']
+        self.ydl = youtube_dl.YoutubeDL(opts)
+        result = self.ydl.extract_info(url, download=False)
+        totalfilesize = 0
+        for fmt in result['requested_formats']:
+            totalfilesize += fmt['filesize']
 
-            video['totalsize'] = totalfilesize
+        video['totalsize'] = totalfilesize
 
         self.video_starting.emit(url, video['totalsize'])
-        with youtube_dl.YoutubeDL(opts) as ydl:
-            ydl.download([url])
+
+        self.ydl.download([url])
+
         self.video_finished.emit(url)
+        self.ydl = None
 
     def fetch(self):
 

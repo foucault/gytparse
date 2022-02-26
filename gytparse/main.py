@@ -1,7 +1,9 @@
 import urllib
+import html
 import sys
 import gi
 import shutil
+import math
 from functools import partial
 
 gi.require_version("Gtk", "4.0")
@@ -9,7 +11,22 @@ gi.require_version("Adw", "1")
 
 from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
 
-from .operation import PageFetcher, ThumbFetcher
+from .operation import PageFetcher, ThumbFetcher, VideoFetcher, VideoMetadataFetcher
+
+
+def _pretty_print_size(size):
+
+    if size == 0:
+        return "0 B"
+
+    units = ('B', 'kiB', 'MiB', 'TiB', 'PiB', 'EiB', 'ZiB')
+
+    idx = int(math.floor(math.log(size, 1024)))
+    power = math.pow(1024, idx)
+    csize = round(size / power, 2)
+
+    return "%s %s" % (csize, units[idx])
+
 
 def _set_css_class(wdg, cls):
     Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(wdg), cls)
@@ -24,11 +41,16 @@ class MainWindow(Adw.ApplicationWindow):
     ui_entry = Gtk.Template.Child()
     scrolled_win = Gtk.Template.Child()
     list_box = Gtk.Template.Child()
+    dl_list_box = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.morerow = None
         self.css_provider = Gtk.CssProvider()
+        self.video_fetcher = VideoFetcher()
+        self.video_fetcher.connect('video-progress', self.__video_progress)
+        self.video_fetcher.connect('video-finished', self.__video_completed)
+        self.dls_queued = {}
         self.css_provider.load_from_resource('/gr/oscillate/gytparse/main.css')
         Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
             self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
@@ -64,8 +86,20 @@ class MainWindow(Adw.ApplicationWindow):
             row.set_child(entry)
             _set_css_class(row, 'entry')
             self.list_box.append(row)
+            entry.connect('dl-request', self.__add_new_dl_request)
 
         self.__add_more_widget(apikey, continuation)
+
+    def __video_progress(self, fetcher, url, bytes_downloaded, total):
+        entry = self.dls_queued[url].get_child()
+        entry.set_progress(bytes_downloaded/total)
+
+    def __video_completed(self, fetcher, url):
+        entry = self.dls_queued[url].get_child()
+        entry.set_completed()
+
+    def __video_cancel(self, _, url):
+        self.video_fetcher.unqueue_video(url)
 
     def __submit_new(self, query):
         fetcher = PageFetcher()
@@ -111,6 +145,17 @@ class MainWindow(Adw.ApplicationWindow):
     def __more_requested(self, _, apikey, continuation):
         self.__submit_continue(apikey, continuation)
 
+    def __add_new_dl_request(self, _, title, uri, folder, pixbuf):
+        row = Gtk.ListBoxRow()
+        row.set_property('activatable', False)
+        container = DlEntryContainer(title, uri, folder, pixbuf)
+        container.connect('video-request-cancel', self.__video_cancel)
+        row.set_child(container)
+        self.dls_queued[uri] = row
+        self.dl_list_box.append(row)
+        self.video_fetcher.queue_video(uri, folder)
+        self.video_fetcher.fetch_async()
+
 
 @Gtk.Template(resource_path='/gr/oscillate/gytparse/entry.ui')
 class EntryContainer(Adw.Bin):
@@ -143,7 +188,6 @@ class EntryContainer(Adw.Bin):
             self.entry_img.set_property('width_request', thumb.get_width())
             self.entry_img.set_property('height_request', thumb.get_height())
             self.entry_img.set_property('can_shrink', True)
-            #self.entry_img.set_property('keep_aspect_ratio', True)
             self.entry_img.set_hexpand(False)
 
             widget = Adw.Bin()
@@ -176,9 +220,26 @@ class EntryContainer(Adw.Bin):
         command = GLib.spawn_async([mpv, uri], flags=flags)
 
     @Gtk.Template.Callback()
-    def entry_open_clicked(self, *args):
-        uri = "https://youtu.be/%s" % urllib.parse.quote_plus(self.video.videoId)
-        Gio.AppInfo.launch_default_for_uri(uri, None)
+    def entry_save_clicked(self, *args):
+
+        def callback(chooser, response):
+            if response == Gtk.ResponseType.ACCEPT:
+                uri = "https://youtu.be/%s" % urllib.parse.quote_plus(self.video.videoId)
+                self.dl_request.emit(self.video.title, uri, \
+                    chooser.get_file().get_path(),\
+                    self.entry_img.get_paintable())
+
+
+        parent = self.get_root()
+        self.dialog = Gtk.FileChooserNative.new(title="Select folder",
+            parent=parent, action=Gtk.FileChooserAction.SELECT_FOLDER)
+        self.dialog.set_modal(True)
+        self.dialog.show()
+        self.dialog.connect("response", callback)
+
+    @GObject.Signal(arg_types=(str, str, str, object))
+    def dl_request(self, name, uri, folder, pixbuf):
+        pass
 
 
 @Gtk.Template(resource_path='/gr/oscillate/gytparse/more.ui')
@@ -198,6 +259,66 @@ class MoreWidget(Adw.Bin):
     @Gtk.Template.Callback()
     def more_clicked(self, *args):
         self.emit("request-more", self.apikey, self.continuation)
+
+
+@Gtk.Template(resource_path='/gr/oscillate/gytparse/dlentry.ui')
+class DlEntryContainer(Adw.Bin):
+
+    __gtype_name__ = 'DlEntryContainer'
+
+    dl_title_label = Gtk.Template.Child()
+    dl_subtitle_label = Gtk.Template.Child()
+    dl_filesize_label = Gtk.Template.Child()
+    layout_box = Gtk.Template.Child()
+    dl_progressbar = Gtk.Template.Child()
+
+    def __init__(self, title, uri, folder, pixbuf, **kwargs):
+        super().__init__(**kwargs)
+        self.title = title
+        self.uri = uri
+        self.folder = folder
+        self.dl_title_label.set_text(title)
+        self.dl_subtitle_label.set_text('Added')
+        self.filesize = 0
+
+        self.entry_img = Gtk.Picture.new_for_paintable(pixbuf)
+        self.entry_img.set_property('width_request', pixbuf.get_width()*0.25)
+        self.entry_img.set_property('height_request', pixbuf.get_height()*0.25)
+        self.entry_img.set_property('can_shrink', True)
+        self.entry_img.set_hexpand(False)
+        self.layout_box.prepend(self.entry_img)
+
+        fetcher = VideoMetadataFetcher(self.uri)
+        fetcher.fetch_async(None, self.metadata_found)
+
+    def __update_progress_cb(self, progress):
+        self.dl_progressbar.set_fraction(progress)
+        self.dl_subtitle_label.set_text("Downloading… – %3d%%" %
+            (int(progress*100.0)))
+
+    def set_progress(self, progress):
+        GLib.idle_add(self.__update_progress_cb, progress)
+
+    def set_completed(self):
+        self.dl_progressbar.set_fraction(1.0)
+        self.dl_subtitle_label.set_text("Completed – Saved to: %s" % (self.folder))
+
+    def metadata_found(self, fetcher, result):
+        metadata = fetcher.get_metadata(result)
+        self.filesize = metadata['filesize']
+        self.dl_filesize_label.set_text(_pretty_print_size(self.filesize))
+
+    @GObject.Signal(arg_types=(str, ))
+    def video_request_cancel(self, url):
+        pass
+
+    @Gtk.Template.Callback()
+    def open_folder_clicked(self, *args):
+        Gtk.show_uri(None, "file://"+self.folder, Gdk.CURRENT_TIME)
+
+    @Gtk.Template.Callback()
+    def cancel_clicked(self, *args):
+        self.video_request_cancel.emit(self.uri)
 
 
 class Application(Gtk.Application):

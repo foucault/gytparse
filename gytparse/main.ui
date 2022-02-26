@@ -12,59 +12,109 @@
         <child>
           <object class="AdwHeaderBar">
             <style><class name="header"/></style>
+            <property name="title-widget">
+              <object class="AdwViewSwitcherTitle" id="switcher_title">
+                <property name="stack">stack</property>
+                <property name="title" bind-source="MainWindow" bind-property="title" bind-flags="sync-create"/>
+              </object>
+            </property>
           </object>
         </child>
         <child>
-          <object class="GtkGrid" id="main_grid">
-            <property name="margin_top">18</property>
-            <property name="margin_bottom">18</property>
-            <property name="margin_start">18</property>
-            <property name="margin_end">18</property>
-            <property name="row_spacing">9</property>
-            <property name="column_spacing">9</property>
+          <object class="AdwViewStack" id="stack">
 
             <child>
-              <object class="GtkEntry" id="ui_entry">
-                <signal name="activate" handler="ui_entry_activated"/>
-                <property name="hexpand">true</property>
-                <property name="activates_default">false</property>
-                <property name="placeholder_text">Search for a video…</property>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="ui_button">
+              <object class="AdwViewStackPage">
+                <property name="name">youtube_page</property>
+                <property name="title" translatable="yes">_Search</property>
+                <property name="icon-name">system-search</property>
+                <property name="use-underline">True</property>
                 <property name="child">
-                  <object class="AdwButtonContent">
-                    <property name="icon_name">system-search</property>
-                    <property name="label" translatable="yes">_Search</property>
-                    <property name="use_underline">true</property>
+                  <object class="GtkGrid" id="main_grid">
+                    <property name="margin_top">18</property>
+                    <property name="margin_bottom">18</property>
+                    <property name="margin_start">18</property>
+                    <property name="margin_end">18</property>
+                    <property name="row_spacing">9</property>
+                    <property name="column_spacing">9</property>
+
+                    <child>
+                      <object class="GtkEntry" id="ui_entry">
+                        <signal name="activate" handler="ui_entry_activated"/>
+                        <property name="hexpand">true</property>
+                        <property name="activates_default">false</property>
+                        <property name="placeholder_text">Search for a video…</property>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="ui_button">
+                        <property name="child">
+                          <object class="AdwButtonContent">
+                            <property name="icon_name">system-search</property>
+                            <property name="label" translatable="yes">_Search</property>
+                            <property name="use_underline">true</property>
+                          </object>
+                        </property>
+                        <signal name="clicked" handler="ui_button_clicked"/>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkScrolledWindow" id="scrolled_win">
+                        <property name="vscrollbar_policy">automatic</property>
+
+                        <child>
+                          <object class="GtkListBox" id="list_box">
+                            <style><class name="transparent"/><class name="list_box"/></style>
+                            <property name="hexpand">true</property>
+                            <property name="vexpand">true</property>
+                            <property name="selection-mode">none</property>
+                            <property name="can-focus">false</property>
+                            <property name="activate-on-single-click">false</property>
+                          </object>
+                        </child>
+
+                        <layout>
+                          <property name="column">0</property>
+                          <property name="row">1</property>
+                          <property name="column_span">3</property>
+                        </layout>
+
+                      </object>
+                    </child>
+
                   </object>
                 </property>
-                <signal name="clicked" handler="ui_button_clicked"/>
               </object>
             </child>
 
             <child>
-              <object class="GtkScrolledWindow" id="scrolled_win">
-                <property name="vscrollbar_policy">automatic</property>
+              <object class="AdwViewStackPage">
+                <property name="name">downloads_page</property>
+                <property name="title" translatable="yes">_Downloads</property>
+                <property name="icon-name">document-save-symbolic</property>
+                <property name="use-underline">True</property>
+                <property name="child">
+                  <object class="GtkScrolledWindow" id="dl_scrolled_win">
+                    <property name="vscrollbar_policy">automatic</property>
 
-                <child>
-                  <object class="GtkListBox" id="list_box">
-                    <property name="hexpand">true</property>
-                    <property name="vexpand">true</property>
-                    <property name="selection-mode">none</property>
-                    <property name="can-focus">false</property>
-                    <property name="activate-on-single-click">false</property>
+                    <child>
+                    <object class="GtkListBox" id="dl_list_box">
+                      <property name="margin_start">9</property>
+                      <property name="margin_end">9</property>
+                      <property name="margin_top">9</property>
+                      <property name="margin_bottom">9</property>
+                      <property name="hexpand">true</property>
+                      <property name="vexpand">true</property>
+                      <property name="selection-mode">none</property>
+                      <property name="can-focus">false</property>
+                      <property name="activate-on-single-click">false</property>
+                      <style><class name="transparent"/></style>
+                    </object>
+                    </child>
                   </object>
-                </child>
-
-                <layout>
-                  <property name="column">0</property>
-                  <property name="row">1</property>
-                  <property name="column_span">3</property>
-                </layout>
-
+                </property>
               </object>
             </child>
 

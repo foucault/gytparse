@@ -59,16 +59,9 @@
             </child>
 
             <child>
-              <object class="GtkButton" id="open_button">
-                <property name="icon_name">camera-video-symbolic</property>
-                <signal name="clicked" handler="entry_open_clicked"/>
-              </object>
-            </child>
-
-            <child>
-              <object class="GtkButton" id="ave_button">
+              <object class="GtkButton" id="save_button">
                 <property name="icon_name">document-save-symbolic</property>
-                <!--<signal name="clicked" handler="entry_open_clicked"/>-->
+                <signal name="clicked" handler="entry_save_clicked"/>
               </object>
             </child>
 
