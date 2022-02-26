@@ -11,6 +11,9 @@ from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
 
 from .operation import PageFetcher, ThumbFetcher
 
+def _set_css_class(wdg, cls):
+    Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(wdg), cls)
+
 
 @Gtk.Template(resource_path='/gr/oscillate/gytparse/main.ui')
 class MainWindow(Adw.ApplicationWindow):
@@ -29,7 +32,7 @@ class MainWindow(Adw.ApplicationWindow):
         self.css_provider.load_from_resource('/gr/oscillate/gytparse/main.css')
         Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
             self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
-        Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(self.list_box), 'list_box')
+        _set_css_class(self.list_box, 'list_box')
 
     @Gtk.Template.Callback()
     def ui_button_clicked(self, *args):
@@ -59,7 +62,7 @@ class MainWindow(Adw.ApplicationWindow):
             row = Gtk.ListBoxRow()
             row.set_property('activatable', False)
             row.set_child(entry)
-            Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(row), 'entry')
+            _set_css_class(row, 'entry')
             self.list_box.append(row)
 
         self.__add_more_widget(apikey, continuation)
@@ -147,7 +150,7 @@ class EntryContainer(Adw.Bin):
             widget.set_property('height_request', thumb.get_height())
             overlay = Gtk.Overlay()
             label = Gtk.Label()
-            Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(label), 'duration_label')
+            _set_css_class(label, 'duration_label')
             label.set_text(self.video.duration)
             label.set_property('halign', Gtk.Align.END)
             label.set_property('valign', Gtk.Align.END)
@@ -158,8 +161,7 @@ class EntryContainer(Adw.Bin):
             overlay.add_overlay(widget=self.entry_img)
             overlay.add_overlay(widget=label)
 
-            Gtk.StyleContext.add_class(Gtk.Widget.get_style_context(self.entry_img), 'entry_img')
-            #self.layout_box.prepend(self.entry_img)
+            _set_css_class(self.entry_img, 'entry_img')
             self.layout_box.prepend(widget)
 
     @Gtk.Template.Callback()
