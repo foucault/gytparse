@@ -124,7 +124,8 @@ class EntryContainer(Adw.Bin):
 
     def __init__(self, video, **kwargs):
         super().__init__(**kwargs)
-        self.entry_title.set_text(video.title)
+        self.entry_title.set_markup('<a class="title_link" href="https://youtu.be/%s">%s</a>' %
+            (urllib.parse.quote_plus(video.videoId), html.escape(video.title)))
         if video.uploaded is None or video.uploaded != "":
             self.entry_subtitle.set_text("%s views · %s" % (video.views, video.uploaded))
         else:

@@ -24,6 +24,10 @@
   font-weight: bold;
 }
 
+.title_link {
+  text-decoration-line: none;
+}
+
 .outline {
   border: 1px solid red;
 }
