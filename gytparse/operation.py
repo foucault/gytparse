@@ -20,7 +20,7 @@ class _VideoFetchLogger:
         pass
 
     def error(self, msg):
-        print('An error occurred while downloading:', msg)
+        print('An error occurred while downloading:', msg, file=sys.stderr)
 
 
 class VideoFetcher(GObject.GObject):
