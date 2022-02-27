@@ -19,7 +19,7 @@ def _pretty_print_size(size):
     if size == 0:
         return "0 B"
 
-    units = ('B', 'kiB', 'MiB', 'TiB', 'PiB', 'EiB', 'ZiB')
+    units = ('B', 'kiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB')
 
     idx = int(math.floor(math.log(size, 1024)))
     power = math.pow(1024, idx)
