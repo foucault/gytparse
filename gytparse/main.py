@@ -46,15 +46,31 @@ class MainWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.morerow = None
-        self.css_provider = Gtk.CssProvider()
         self.video_fetcher = VideoFetcher()
         self.video_fetcher.connect('video-progress', self.__video_progress)
         self.video_fetcher.connect('video-finished', self.__video_completed)
         self.dls_queued = {}
+
+        self.css_provider = Gtk.CssProvider()
         self.css_provider.load_from_resource('/gr/oscillate/gytparse/main.css')
         Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
             self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         _set_css_class(self.list_box, 'list_box')
+
+        self.shortcuts = Gtk.ShortcutController()
+        self.shortcuts.set_scope(Gtk.ShortcutScope.GLOBAL)
+        self.add_controller(self.shortcuts)
+        self.__install_global_shortcut('<ctrl>l', lambda *args: self.ui_entry.grab_focus())
+
+
+    def __install_global_shortcut(self, keybinding, callback):
+        shortcut = Gtk.Shortcut()
+        trigger = Gtk.ShortcutTrigger.parse_string(keybinding)
+        shortcutaction = Gtk.CallbackAction.new(callback, None)
+        shortcut.set_trigger(trigger)
+        shortcut.set_action(shortcutaction)
+        self.shortcuts.add_shortcut(shortcut)
+
 
     @Gtk.Template.Callback()
     def ui_button_clicked(self, *args):
