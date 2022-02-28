@@ -182,6 +182,7 @@ class EntryContainer(Adw.Bin):
     entry_title = Gtk.Template.Child()
     entry_subtitle = Gtk.Template.Child()
     entry_uploader = Gtk.Template.Child()
+    entry_snippet = Gtk.Template.Child()
 
     def __init__(self, video, **kwargs):
         super().__init__(**kwargs)
@@ -192,6 +193,8 @@ class EntryContainer(Adw.Bin):
         else:
             self.entry_subtitle.set_text("%s views" % video.views)
         self.entry_uploader.set_text(video.uploader)
+        if video.snippet != "":
+            self.entry_snippet.set_text(video.snippet)
         self.video = video
 
         fetcher = ThumbFetcher(video.thumbnail)

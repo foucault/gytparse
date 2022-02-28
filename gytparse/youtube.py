@@ -137,6 +137,7 @@ class Video:
     views: str = "0"
     uploaded: str = ""
     duration: str = "00:00"
+    snippet: str = ""
 
     @staticmethod
     def from_dict(data, render_unavailables=False):
@@ -181,9 +182,15 @@ class Video:
         except (KeyError, IndexError):
             uploaded = ""
 
+        try:
+            runs = data['detailedMetadataSnippets'][0]['snippetText']['runs']
+            snippet = "".join([x['text'] for x in runs])
+        except (KeyError, IndexError):
+            snippet = ""
+
         return Video(title=title, videoId=vid, thumbnail=thumb,
             uploader=uploader, views=views, uploaded=uploaded,
-            duration=duration)
+            duration=duration, snippet=snippet)
 
 
 @dataclass

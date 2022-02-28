@@ -43,6 +43,19 @@
               </object>
             </child>
 
+            <child>
+              <object class="GtkLabel" id="entry_snippet">
+                <style><class name="snippet"/></style>
+                <property name="halign">start</property>
+                <property name="valign">start</property>
+                <property name="ellipsize">end</property>
+                <property name="vexpand">True</property>
+                <property name="wrap">True</property>
+                <property name="wrap-mode">char</property>
+                <property name="lines">3</property>
+              </object>
+            </child>
+
           </object>
         </child>
 

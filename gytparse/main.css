@@ -41,3 +41,7 @@
   padding: 3px 5px 3px 5px;
   font-weight: bold;
 }
+
+.snippet {
+  opacity: 0.5;
+}
