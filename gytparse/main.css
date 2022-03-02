@@ -13,7 +13,7 @@
 .entry:hover {
   border: 1px solid #ccc;
   background: darker(@bg_color);
-  box-shadow: 2px 2px 3px grey;
+  box-shadow: 1px 1px 2px grey;
 }
 
 .entry {
