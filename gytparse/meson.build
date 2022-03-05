@@ -27,10 +27,10 @@ configure_file(
 
 gytparse_sources = [
   '__init__.py',
-  'main.py'
+  'main.py',
+  'operation.py',
+  'youtube.py'
 ]
-
-#install_data(gytparse_sources, install_dir: moduledir)
 
 install_subdir(
   meson.current_source_dir(),
