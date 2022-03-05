@@ -16,7 +16,7 @@ gettext.install('gytparse', localedir)
 
 if __name__ == '__main__':
 
-    if not os.environ.get('LOCALRUN', False):
+    if not 'G_RESOURCE_OVERLAYS' in os.environ.keys():
         import gi
 
         from gi.repository import Gio
