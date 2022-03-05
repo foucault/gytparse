@@ -13,9 +13,21 @@
           <object class="AdwHeaderBar">
             <style><class name="header"/></style>
             <property name="title-widget">
-              <object class="AdwViewSwitcherTitle" id="switcher_title">
-                <property name="stack">stack</property>
-                <property name="title" bind-source="MainWindow" bind-property="title" bind-flags="sync-create"/>
+              <object class="GtkBox">
+                <property name="hexpand">True</property>
+                <property name="orientation">horizontal</property>
+                <child>
+                  <object class="AdwViewSwitcherTitle" id="switcher_title">
+                    <property name="hexpand">True</property>
+                    <property name="stack">stack</property>
+                    <property name="title" bind-source="MainWindow" bind-property="title" bind-flags="sync-create"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="settings_button">
+                    <property name="icon-name">gtk-preferences</property>
+                  </object>
+                </child>
               </object>
             </property>
           </object>
