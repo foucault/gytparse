@@ -234,6 +234,13 @@ class EntryContainer(Adw.Bin):
     def entry_play_clicked(self, *args):
         mpv = shutil.which('mpv')
         if mpv is None:
+            dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.CLOSE, \
+                text="Executable 'mpv' not found")
+            dialog.set_modal(True)
+            dialog.connect('response', lambda dlg, _: dlg.destroy())
+            dialog.show()
             return
 
         fmt = ytdl_fmt_from_str(Settings.get_string('stream-quality'))
