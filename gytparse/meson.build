@@ -29,7 +29,8 @@ gytparse_sources = [
   '__init__.py',
   'main.py',
   'operation.py',
-  'youtube.py'
+  'youtube.py',
+  'settings.py'
 ]
 
 install_subdir(

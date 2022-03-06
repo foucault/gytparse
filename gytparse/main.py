@@ -11,7 +11,9 @@ gi.require_version("Adw", "1")
 
 from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
 
-from .operation import PageFetcher, ThumbFetcher, VideoFetcher, VideoMetadataFetcher
+from .operation import PageFetcher, ThumbFetcher, VideoFetcher
+from .operation import VideoMetadataFetcher, ytdl_fmt_from_str
+from .settings import Settings
 
 
 def _pretty_print_size(size):
@@ -43,9 +45,8 @@ class MainWindow(Adw.ApplicationWindow):
     list_box = Gtk.Template.Child()
     dl_list_box = Gtk.Template.Child()
 
-    def __init__(self, settings, **kwargs):
+    def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.settings = settings
         self.morerow = None
         self.video_fetcher = VideoFetcher()
         self.video_fetcher.connect('video-progress', self.__video_progress)
@@ -235,9 +236,11 @@ class EntryContainer(Adw.Bin):
         if mpv is None:
             return
 
+        fmt = ytdl_fmt_from_str(Settings.get_string('stream-quality'))
+
         uri = "https://youtu.be/%s" % urllib.parse.quote_plus(self.video.videoId)
         flags = GLib.SPAWN_DO_NOT_REAP_CHILD|GLib.SPAWN_STDERR_TO_DEV_NULL|GLib.SPAWN_STDOUT_TO_DEV_NULL
-        command = GLib.spawn_async([mpv, uri], flags=flags)
+        command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, uri], flags=flags)
 
     @Gtk.Template.Callback()
     def entry_save_clicked(self, *args):
@@ -348,7 +351,6 @@ class Application(Gtk.Application):
             flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name('YouTube Parser')
         GLib.set_prgname("gr.oscillate.gytparse")
-        self.settings = Gio.Settings.new('gr.oscillate.gytparse')
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
@@ -358,7 +360,7 @@ class Application(Gtk.Application):
         win = self.props.active_window
 
         if not win:
-            win = MainWindow(settings=self.settings, application=self)
+            win = MainWindow(application=self)
 
         win.present()
 

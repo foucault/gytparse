@@ -5,10 +5,27 @@ from . import youtube
 
 from gi.repository import GLib, Gio, GObject, GdkPixbuf
 
+from .settings import Settings
+
 try:
     import yt_dlp as youtube_dl
 except ModuleNotFoundError:
     import youtube_dl
+
+
+_FORMAT_TMPL = 'bestvideo[height<=?%d]+bestaudio/best[height<=?%d]'
+
+
+def ytdl_fmt_from_str(quality):
+
+    if quality not in ['best', '2160p', '1080p', '720p', '480p', '360p']:
+        raise ValueError("Unsupported video quality: " + quality)
+
+    if quality == 'best':
+        return 'bestvideo+bestaudio/best'
+    else:
+        quality = int(quality[:-1])
+        return _FORMAT_TMPL % (quality, quality)
 
 
 class _VideoFetchLogger:
@@ -50,6 +67,7 @@ class VideoFetcher(GObject.GObject):
 
         opts = {
             'outtmpl': os.path.join(target, '%(title)s.%(ext)s'),
+            'format': ytdl_fmt_from_str(Settings.get_string('download-quality')),
             'progress_hooks': [partial(hook, video=video)],
             'logger': _VideoFetchLogger()
         }
@@ -110,7 +128,9 @@ class VideoMetadataFetcher(GObject.GObject):
         self.totalsize = 0
 
     def fetch(self):
-        opts = { 'logger': _VideoFetchLogger() }
+        opts = { 'logger': _VideoFetchLogger(),
+                 'format': ytdl_fmt_from_str(Settings.get_string('download-quality')),
+        }
 
         with youtube_dl.YoutubeDL(opts) as ydl:
             result = ydl.extract_info(self.url, download=False)
