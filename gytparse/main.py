@@ -43,8 +43,9 @@ class MainWindow(Adw.ApplicationWindow):
     list_box = Gtk.Template.Child()
     dl_list_box = Gtk.Template.Child()
 
-    def __init__(self, **kwargs):
+    def __init__(self, settings, **kwargs):
         super().__init__(**kwargs)
+        self.settings = settings
         self.morerow = None
         self.video_fetcher = VideoFetcher()
         self.video_fetcher.connect('video-progress', self.__video_progress)
@@ -347,6 +348,7 @@ class Application(Gtk.Application):
             flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name('YouTube Parser')
         GLib.set_prgname("gr.oscillate.gytparse")
+        self.settings = Gio.Settings.new('gr.oscillate.gytparse')
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
@@ -356,7 +358,7 @@ class Application(Gtk.Application):
         win = self.props.active_window
 
         if not win:
-            win = MainWindow(application=self)
+            win = MainWindow(settings=self.settings, application=self)
 
         win.present()
 

@@ -12,3 +12,4 @@ __pycache__
 *.lib
 *.pyc
 *.bin
+gschemas.compiled

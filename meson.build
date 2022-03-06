@@ -28,14 +28,12 @@ dependency('gtk4', version: '>= 4.5.0')
 dependency('libadwaita-1', version: '>= 0.90.0')
 
 python_dir = python_bin.get_install_dir()
+schemas_dir = join_paths(get_option('prefix'), get_option('datadir'), 'glib-2.0', 'schemas')
 DATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
 
 
-#subdir('data')
 subdir('gytparse')
-#subdir('po')
 
-#meson.add_install_script('build-aux/meson/postinstall.py')
 gnome.post_install(
   gtk_update_icon_cache: true,
   glib_compile_schemas: true,

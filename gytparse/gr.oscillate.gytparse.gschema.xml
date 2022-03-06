@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<schemalist>
+
+  <schema path='/gr/oscillate/gytparse/' id='gr.oscillate.gytparse'>
+
+    <key name='proxy-type' type='s'>
+      <choices>
+        <choice value='none'/>
+        <choice value='socks5'/>
+        <choice value='http'/>
+        <choice value='https'/>
+      </choices>
+      <aliases>
+        <alias value='socks' target='socks5'/>
+      </aliases>
+      <default>'none'</default>
+      <summary>Proxy type to use</summary>
+    </key>
+
+    <key name='proxy-host' type='s'>
+      <default>''</default>
+      <summary>Proxy host or IP address</summary>
+    </key>
+
+    <key name='proxy-port' type='i'>
+      <range min='10' max='65535'/>
+      <default>8088</default>
+    </key>
+
+    <key name='stream-quality' type='s'>
+      <choices>
+        <choice value='best'/>
+        <choice value='2160p'/>
+        <choice value='1080p'/>
+        <choice value='720p'/>
+        <choice value='480p'/>
+        <choice value='360p'/>
+      </choices>
+      <default>'1080p'</default>
+      <summary>Highest video quality to stream</summary>
+    </key>
+
+    <key name='download-quality' type='s'>
+      <choices>
+        <choice value='best'/>
+        <choice value='2160p'/>
+        <choice value='1080p'/>
+        <choice value='720p'/>
+        <choice value='480p'/>
+        <choice value='360p'/>
+      </choices>
+      <default>'1080p'</default>
+      <summary>Highest video quality to download</summary>
+    </key>
+
+  </schema>
+
+</schemalist>

@@ -38,7 +38,11 @@ install_subdir(
   exclude_files: ['gytparse.in',
     'meson.build',
     'gytparse.gresource.xml',
+    'gr.oscillate.gytparse.gschema.xml',
     'entry.ui', 'main.ui',
     'more.ui', 'main.css'],
   install_dir: python_dir
 )
+
+settings_schemas = [ 'gr.oscillate.' + meson.project_name() + '.gschema.xml' ]
+install_data(settings_schemas, install_dir: schemas_dir)
