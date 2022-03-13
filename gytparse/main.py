@@ -84,6 +84,14 @@ class MainWindow(Adw.ApplicationWindow):
     def ui_entry_activated(self, *args):
         self.__submit_new(self.ui_entry.get_text())
 
+    @Gtk.Template.Callback()
+    def open_preferences_clicked(self, *args):
+        app = self.get_application()
+        win = app.get_active_window()
+        preferences = PreferencesWindow()
+        preferences.set_transient_for(win)
+        preferences.present()
+
     def videos_found(self, fetcher, result, clear=True):
         self.ui_button.set_sensitive(True)
         self.ui_entry.set_sensitive(True)
@@ -363,6 +371,61 @@ class DlEntryContainer(Adw.Bin):
     @Gtk.Template.Callback()
     def cancel_clicked(self, *args):
         self.video_request_cancel.emit(self.uri)
+
+
+@Gtk.Template(resource_path='/gr/oscillate/gytparse/preferences.ui')
+class PreferencesWindow(Adw.PreferencesWindow):
+
+    __gtype_name__ = 'PreferencesWindow'
+
+    download_quality_row = Gtk.Template.Child()
+    stream_quality_row = Gtk.Template.Child()
+    proxy_type_row = Gtk.Template.Child()
+    proxy_host_entry = Gtk.Template.Child()
+    proxy_port_spin = Gtk.Template.Child()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.__populate_combobox('download-quality', self.download_quality_row)
+        self.__populate_combobox('stream-quality', self.stream_quality_row)
+        self.__populate_combobox('proxy-type', self.proxy_type_row)
+        self.proxy_host_entry.set_text(Settings.get_string('proxy-host'))
+        self.proxy_port_spin.set_value(Settings.get_int('proxy-port'))
+
+        Settings.bind('proxy-host', self.proxy_host_entry, 'text', \
+            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
+        Settings.bind('proxy-port', self.proxy_port_spin, 'value', \
+            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
+
+    def __populate_combobox(self, key, combo):
+        schema = Settings.get_property('settings-schema')
+        try:
+            choices = schema.get_key(key).get_range()[1]
+            value = Settings.get_string(key)
+            model = combo.get_model()
+            for (i, c) in enumerate(choices):
+                model.append(c)
+                if c == value:
+                    combo.set_selected(i)
+        except Exception as exc:
+            print("Could not populate combo from key", key, exc, file=sys.stderr)
+
+    @Gtk.Template.Callback()
+    def combo_value_changed(self, combo, _):
+        if combo == self.proxy_type_row:
+            proxy = self.proxy_type_row.get_selected_item().get_string()
+            self.proxy_host_entry.set_sensitive(proxy != 'none')
+            self.proxy_port_spin.set_sensitive(proxy != 'none')
+            Settings.set_string('proxy-type', proxy)
+        elif combo == self.download_quality_row:
+            dlquality = self.download_quality_row.get_selected_item().get_string()
+            Settings.set_string('download-quality', dlquality)
+        elif combo == self.stream_quality_row:
+            strquality = self.stream_quality_row.get_selected_item().get_string()
+            Settings.set_string('stream-quality', strquality)
+        else:
+            print('combo_value_changed called on unknown widget', combo, \
+                file=sys.stderr)
 
 
 class Application(Gtk.Application):

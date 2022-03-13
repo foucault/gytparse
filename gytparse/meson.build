@@ -40,8 +40,8 @@ install_subdir(
     'meson.build',
     'gytparse.gresource.xml',
     'gr.oscillate.gytparse.gschema.xml',
-    'entry.ui', 'main.ui',
-    'more.ui', 'main.css'],
+    'entry.ui', 'main.ui', 'dlentry.ui',
+    'more.ui', 'main.css', 'preferences.ui'],
   install_dir: python_dir
 )
 

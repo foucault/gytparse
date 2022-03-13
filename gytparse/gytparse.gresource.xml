@@ -6,5 +6,6 @@
     <file>main.css</file>
     <file>more.ui</file>
     <file>dlentry.ui</file>
+    <file>preferences.ui</file>
   </gresource>
 </gresources>

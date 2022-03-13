@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="libadwaita" version="1.0"/>
+  <template class="PreferencesWindow" parent="AdwPreferencesWindow">
+    <property name="can-navigate-back" translatable="yes">True</property>
+		<child>
+      <object class="AdwPreferencesPage">
+        <property name="title">Preferecnes</property>
+        <property name="icon-name">gtk-preferences</property>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="description" translatable="yes">Proxy used to access and download videos</property>
+            <property name="title" translatable="yes">Proxy Settings</property>
+
+            <child>
+              <object class="AdwComboRow" id="proxy_type_row">
+                <property name="title" translatable="yes">Type</property>
+                <signal name="notify::selected" handler="combo_value_changed"/>
+                <property name="use-underline">True</property>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items/>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Host</property>
+                <property name="use-underline">True</property>
+                <child>
+                  <object class="GtkEntry" id="proxy_host_entry">
+                    <property name="valign">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwActionRow">
+                <property name="title" translatable="yes">Port</property>
+                <property name="use-underline">True</property>
+                <child>
+                  <object class="GtkSpinButton" id="proxy_port_spin">
+                    <property name="valign">center</property>
+                    <property name="adjustment">
+                      <object class="GtkAdjustment">
+                        <property name="lower">10</property>
+                        <property name="upper">65535</property>
+                        <property name="value">8088</property>
+                        <property name="step-increment">1</property>
+                      </object>
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="AdwPreferencesGroup">
+            <property name="description" translatable="yes">Video quality settings</property>
+            <property name="title" translatable="yes">Quality Settings</property>
+
+            <child>
+              <object class="AdwComboRow" id="stream_quality_row">
+                <property name="title" translatable="yes">Streaming quality</property>
+                <property name="subtitle" translatable="yes">Highest video quality to request when streaming</property>
+                <property name="use-underline">True</property>
+                <signal name="notify::selected" handler="combo_value_changed"/>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items/>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwComboRow" id="download_quality_row">
+                <property name="title" translatable="yes">Download quality</property>
+                <property name="subtitle" translatable="yes">Highest video quality to request when downloading</property>
+                <property name="use-underline">True</property>
+                <signal name="notify::selected" handler="combo_value_changed"/>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items/>
+                  </object>
+                </property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+      </object>
+    </child>
+  </template>
+  <object class="GtkSizeGroup">
+    <widgets>
+      <widget name="proxy_host_entry"/>
+      <widget name="proxy_port_spin"/>
+    </widgets>
+  </object>
+</interface>
+
