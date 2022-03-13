@@ -1,3 +1,4 @@
+import sys
 import os.path
 import requests
 from functools import partial
@@ -72,6 +73,9 @@ class VideoFetcher(GObject.GObject):
             'logger': _VideoFetchLogger()
         }
 
+        if Settings.proxy_url() is not None:
+            opts['proxy'] = Settings.proxy_url()
+
         self.ydl = youtube_dl.YoutubeDL(opts)
         result = self.ydl.extract_info(url, download=False)
         totalfilesize = 0
@@ -131,6 +135,9 @@ class VideoMetadataFetcher(GObject.GObject):
         opts = { 'logger': _VideoFetchLogger(),
                  'format': ytdl_fmt_from_str(Settings.get_string('download-quality')),
         }
+
+        if Settings.proxy_url() is not None:
+            opts['proxy'] = Settings.proxy_url()
 
         with youtube_dl.YoutubeDL(opts) as ydl:
             result = ydl.extract_info(self.url, download=False)
@@ -209,9 +216,10 @@ class PageFetcher(GObject.GObject):
     def fetch(self, query=None, apikey=None, continuation=None):
 
         if apikey is None and continuation is None:
-            (sections, apikey, continuation) = youtube.yt_search(query)
+            (sections, apikey, continuation) = youtube.yt_search(query, proxy=Settings.proxy_url())
         else:
-            (sections, apikey, continuation) = youtube.yt_token_search(apikey, continuation)
+            (sections, apikey, continuation) = youtube.yt_token_search(apikey, continuation,
+                proxy=Settings.proxy_url())
 
         self.apikey = apikey
         self.continuation = continuation

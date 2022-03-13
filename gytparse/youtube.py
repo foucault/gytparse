@@ -42,7 +42,14 @@ def _find_initial_data(text):
     return (result, innertubeKey)
 
 
-def yt_token_search(token=None, page_token=None, lang="en", locality="US"):
+def _make_proxy_dict(proxy):
+    return {
+        "http"  : proxy,
+        "https" : proxy,
+    }
+
+
+def yt_token_search(token=None, page_token=None, lang="en", locality="US", proxy=None):
 
     if ((token, page_token) != (None, None)) and not all((token, page_token)):
         raise Exception("Need token AND page_token for token search")
@@ -66,7 +73,11 @@ def yt_token_search(token=None, page_token=None, lang="en", locality="US"):
     params = { 'key': token }
     headers = {'Accept-Language': acceptLang}
 
-    resp = requests.post(_YT_API, params=params, json=data, headers=headers)
+    if proxy is None:
+        resp = requests.post(_YT_API, params=params, json=data, headers=headers)
+    else:
+        resp = requests.post(_YT_API, params=params, json=data, headers=headers,
+            proxies=_make_proxy_dict(proxy))
 
     if not resp.ok:
         raise Exception("Search failed; error: %d" % resp.status_code)
@@ -80,7 +91,7 @@ def yt_token_search(token=None, page_token=None, lang="en", locality="US"):
     return (sections, token, continuation)
 
 
-def yt_search(query, page=1, lang="en", locality="US"):
+def yt_search(query, page=1, lang="en", locality="US", proxy=None):
     if locality is None or locality.strip() == "":
         langcode = lang
     else:
@@ -90,7 +101,11 @@ def yt_search(query, page=1, lang="en", locality="US"):
     params = {'q': query, 'page': page}
     headers = {'Accept-Language': acceptLang}
 
-    resp = requests.get(_YT_SEARCH, params=params, headers=headers)
+    if proxy is None:
+        resp = requests.get(_YT_SEARCH, params=params, headers=headers)
+    else:
+        resp = requests.get(_YT_SEARCH, params=params, headers=headers,
+            proxies=_make_proxy_dict(proxy))
 
     if not resp.ok:
         raise Exception("Search failed; error: %d" % resp.status_code)
@@ -106,7 +121,7 @@ def yt_search(query, page=1, lang="en", locality="US"):
     return (sections, apikey, continuation)
 
 
-def yt_playlist(vid, pid, lang="en", locality="US"):
+def yt_playlist(vid, pid, lang="en", locality="US", proxy=None):
     if locality is None or locality.strip() == "":
         langcode = lang
     else:
@@ -116,7 +131,11 @@ def yt_playlist(vid, pid, lang="en", locality="US"):
     params = {'v': vid, 'list': pid}
     headers = {'Accept-Language': acceptLang}
 
-    resp = requests.get(_YT_WATCH, params=params, headers=headers)
+    if proxy is None:
+        resp = requests.get(_YT_WATCH, params=params, headers=headers)
+    else:
+        resp = requests.get(_YT_WATCH, params=params, headers=headers,
+            proxies=_make_proxy_dict(proxy))
 
     if not resp.ok:
         raise Exception("Load playlist failed; error: %d" % resp.status_code)

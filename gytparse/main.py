@@ -247,7 +247,21 @@ class EntryContainer(Adw.Bin):
 
         uri = "https://youtu.be/%s" % urllib.parse.quote_plus(self.video.videoId)
         flags = GLib.SPAWN_DO_NOT_REAP_CHILD|GLib.SPAWN_STDERR_TO_DEV_NULL|GLib.SPAWN_STDOUT_TO_DEV_NULL
-        command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, uri], flags=flags)
+        proxy = Settings.proxy_url()
+        if proxy is None:
+            command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, uri], flags=flags)
+        elif Settings.get_string('proxy-type') == 'socks5':
+            dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
+                message_type=Gtk.MessageType.ERROR,
+                buttons=Gtk.ButtonsType.CLOSE, \
+                text="Streaming is not supported over socks proxies")
+            dialog.set_modal(True)
+            dialog.connect('response', lambda dlg, _: dlg.destroy())
+            dialog.show()
+            return
+        else:
+            command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, \
+                "--ytdl-raw-options-append=proxy=%s" % proxy, uri], flags=flags)
 
     @Gtk.Template.Callback()
     def entry_save_clicked(self, *args):
