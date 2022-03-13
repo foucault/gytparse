@@ -58,6 +58,7 @@ class MainWindow(Adw.ApplicationWindow):
         Gtk.StyleContext.add_provider_for_display(Gdk.Display.get_default(),
             self.css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION)
         _set_css_class(self.list_box, 'list_box')
+        self.set_icon_name('gr.oscillate.gytparse')
 
         self.shortcuts = Gtk.ShortcutController()
         self.shortcuts.set_scope(Gtk.ShortcutScope.GLOBAL)

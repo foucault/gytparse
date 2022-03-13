@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/gr/oscillate/gytparse">
+    <file alias="icons/scalable/apps/gr.oscillate.gytparse.svg">gr.oscillate.gytparse.svg</file>
     <file>main.ui</file>
     <file>entry.ui</file>
     <file>main.css</file>

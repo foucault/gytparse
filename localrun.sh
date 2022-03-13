@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OVERLAY="/gr/oscillate/gytparse=$(pwd)/gytparse"
+OVERLAY="/gr/oscillate/gytparse=$(pwd)/data"
 PYTHONPATH="$(pwd):${PYTHONPATH}"
 
 glib-compile-schemas gytparse --targetdir=$(pwd)

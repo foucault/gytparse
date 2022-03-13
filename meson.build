@@ -1,5 +1,5 @@
 project('gytparse',
-          version: '0.1',
+          version: '0.1.0',
     meson_version: '>= 0.59',
   default_options: [ 'warning_level=2',
                    ],
@@ -31,8 +31,8 @@ python_dir = python_bin.get_install_dir()
 schemas_dir = join_paths(get_option('prefix'), get_option('datadir'), 'glib-2.0', 'schemas')
 DATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
 
-
 subdir('gytparse')
+subdir('data')
 
 gnome.post_install(
   gtk_update_icon_cache: true,

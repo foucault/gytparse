@@ -1,13 +1,4 @@
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
-#moduledir = join_paths(pkgdatadir, 'gytparse')
-
-gnome.compile_resources('gytparse',
-  'gytparse.gresource.xml',
-  gresource_bundle: true,
-  install: true,
-  #  source_dir: meson.current_build_dir(),
-  install_dir: pkgdatadir,
-)
 
 python = import('python')
 
@@ -38,10 +29,7 @@ install_subdir(
   exclude_directories: ['__pycache__'],
   exclude_files: ['gytparse.in',
     'meson.build',
-    'gytparse.gresource.xml',
-    'gr.oscillate.gytparse.gschema.xml',
-    'entry.ui', 'main.ui', 'dlentry.ui',
-    'more.ui', 'main.css', 'preferences.ui'],
+    'gr.oscillate.gytparse.gschema.xml'],
   install_dir: python_dir
 )
 
