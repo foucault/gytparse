@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=YouTube Parser
+Comment=Browse, stream and download YouTube videos
+Exec=gytparse
+Icon=gr.oscillate.gytparse
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=AudioVideo;Video;
