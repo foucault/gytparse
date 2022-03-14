@@ -28,6 +28,14 @@
       <default>8088</default>
     </key>
 
+    <key name='enable-proxy-auth' type='b'>
+      <default>false</default>
+    </key>
+
+    <key name='proxy-auth-username' type='s'>
+      <default>''</default>
+    </key>
+
     <key name='stream-quality' type='s'>
       <choices>
         <choice value='best'/>

@@ -8,12 +8,13 @@ from functools import partial
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
+gi.require_version("Secret", "1")
 
-from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
+from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf, Secret
 
 from .operation import PageFetcher, ThumbFetcher, VideoFetcher
 from .operation import VideoMetadataFetcher, ytdl_fmt_from_str
-from .settings import Settings
+from .settings import Settings, PROXY_PW_SCHEMA
 
 
 def _pretty_print_size(size):
@@ -64,7 +65,6 @@ class MainWindow(Adw.ApplicationWindow):
         self.shortcuts.set_scope(Gtk.ShortcutScope.GLOBAL)
         self.add_controller(self.shortcuts)
         self.__install_global_shortcut('<ctrl>l', lambda *args: self.ui_entry.grab_focus())
-
 
     def __install_global_shortcut(self, keybinding, callback):
         shortcut = Gtk.Shortcut()
@@ -384,19 +384,34 @@ class PreferencesWindow(Adw.PreferencesWindow):
     proxy_type_row = Gtk.Template.Child()
     proxy_host_entry = Gtk.Template.Child()
     proxy_port_spin = Gtk.Template.Child()
+    proxy_username_entry = Gtk.Template.Child()
+    proxy_password_entry = Gtk.Template.Child()
+    proxy_host_row = Gtk.Template.Child()
+    proxy_port_row = Gtk.Template.Child()
+    proxy_auth_expander_row = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.__populate_combobox('download-quality', self.download_quality_row)
         self.__populate_combobox('stream-quality', self.stream_quality_row)
-        self.__populate_combobox('proxy-type', self.proxy_type_row)
         self.proxy_host_entry.set_text(Settings.get_string('proxy-host'))
         self.proxy_port_spin.set_value(Settings.get_int('proxy-port'))
+        self.proxy_password_entry.connect('changed', self.__on_password_changed)
 
         Settings.bind('proxy-host', self.proxy_host_entry, 'text', \
             Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
         Settings.bind('proxy-port', self.proxy_port_spin, 'value', \
             Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
+        Settings.bind('enable-proxy-auth', self.proxy_auth_expander_row, 'enable-expansion', \
+            Gio.SettingsBindFlags.DEFAULT)
+        Settings.bind('proxy-auth-username', self.proxy_username_entry, 'text', \
+            Gio.SettingsBindFlags.DEFAULT)
+
+        self.__populate_combobox('proxy-type', self.proxy_type_row)
+
+        Secret.password_lookup(PROXY_PW_SCHEMA, \
+            {"username": Settings.get_string('proxy-auth-username')}, None, \
+            self.__on_password_retrieved)
 
     def __populate_combobox(self, key, combo):
         schema = Settings.get_property('settings-schema')
@@ -411,12 +426,31 @@ class PreferencesWindow(Adw.PreferencesWindow):
         except Exception as exc:
             print("Could not populate combo from key", key, exc, file=sys.stderr)
 
+    def __on_password_retrieved(self, _, result):
+        pw = Secret.password_lookup_finish(result)
+        if pw is not None:
+            self.proxy_password_entry.set_text(pw)
+
+    def __on_password_changed(self, wdg):
+        Secret.password_store(PROXY_PW_SCHEMA, \
+            {"username": Settings.get_string('proxy-auth-username')},\
+            Secret.COLLECTION_DEFAULT, "Proxy authentication password", \
+            wdg.get_text(), None, \
+            lambda _, p: Secret.password_store_finish(p) )
+
     @Gtk.Template.Callback()
     def combo_value_changed(self, combo, _):
         if combo == self.proxy_type_row:
             proxy = self.proxy_type_row.get_selected_item().get_string()
-            self.proxy_host_entry.set_sensitive(proxy != 'none')
-            self.proxy_port_spin.set_sensitive(proxy != 'none')
+            self.proxy_host_row.set_sensitive(proxy != 'none')
+            self.proxy_host_row.set_selectable(proxy != 'none')
+            self.proxy_host_row.set_activatable(proxy != 'none')
+            self.proxy_port_row.set_sensitive(proxy != 'none')
+            self.proxy_port_row.set_selectable(proxy != 'none')
+            self.proxy_port_row.set_activatable(proxy != 'none')
+            self.proxy_auth_expander_row.set_sensitive(proxy != 'none')
+            self.proxy_auth_expander_row.set_selectable(proxy != 'none')
+            self.proxy_auth_expander_row.set_activatable(proxy != 'none')
             Settings.set_string('proxy-type', proxy)
         elif combo == self.download_quality_row:
             dlquality = self.download_quality_row.get_selected_item().get_string()
