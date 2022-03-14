@@ -4,6 +4,7 @@ import sys
 import gi
 import shutil
 import math
+import os.path
 from functools import partial
 
 gi.require_version("Gtk", "4.0")
@@ -241,12 +242,24 @@ class EntryContainer(Adw.Bin):
 
     @Gtk.Template.Callback()
     def entry_play_clicked(self, *args):
-        mpv = shutil.which('mpv')
+
+        if Settings.get_boolean('override-mpv-path'):
+            mpv = Settings.get_string('mpv-path')
+        else:
+            mpv = shutil.which('mpv')
+
         if mpv is None:
+            error_msg = "No valid 'mpv' executable found"
+        elif not os.path.exists(mpv):
+            error_msg = "Executable '%s' not found" % mpv
+        else:
+            error_msg = None
+
+        if error_msg:
             dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE, \
-                text="Executable 'mpv' not found")
+                text=error_msg)
             dialog.set_modal(True)
             dialog.connect('response', lambda dlg, _: dlg.destroy())
             dialog.show()
@@ -389,6 +402,8 @@ class PreferencesWindow(Adw.PreferencesWindow):
     proxy_host_row = Gtk.Template.Child()
     proxy_port_row = Gtk.Template.Child()
     proxy_auth_expander_row = Gtk.Template.Child()
+    mpv_path_row = Gtk.Template.Child()
+    mpv_path_entry = Gtk.Template.Child()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -406,6 +421,10 @@ class PreferencesWindow(Adw.PreferencesWindow):
             Gio.SettingsBindFlags.DEFAULT)
         Settings.bind('proxy-auth-username', self.proxy_username_entry, 'text', \
             Gio.SettingsBindFlags.DEFAULT)
+        Settings.bind('mpv-path', self.mpv_path_entry, 'text', \
+            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
+        Settings.bind('override-mpv-path', self.mpv_path_row, 'enable-expansion', \
+            Gio.SettingsBindFlags.DEFAULT | Gio.SettingsBindFlags.NO_SENSITIVITY)
 
         self.__populate_combobox('proxy-type', self.proxy_type_row)
 
@@ -438,6 +457,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
             wdg.get_text(), None, \
             lambda _, p: Secret.password_store_finish(p) )
 
+
     @Gtk.Template.Callback()
     def combo_value_changed(self, combo, _):
         if combo == self.proxy_type_row:
@@ -461,7 +481,6 @@ class PreferencesWindow(Adw.PreferencesWindow):
         else:
             print('combo_value_changed called on unknown widget', combo, \
                 file=sys.stderr)
-
 
 class Application(Gtk.Application):
 

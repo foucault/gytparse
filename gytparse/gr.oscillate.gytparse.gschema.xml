@@ -4,6 +4,14 @@
 
   <schema path='/gr/oscillate/gytparse/' id='gr.oscillate.gytparse'>
 
+    <key name='override-mpv-path' type='b'>
+      <default>false</default>
+    </key>
+
+    <key name='mpv-path' type='s'>
+      <default>''</default>
+    </key>
+
     <key name='proxy-type' type='s'>
       <choices>
         <choice value='none'/>
