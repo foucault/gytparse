@@ -4,8 +4,8 @@
   <requires lib="libadwaita" version="1.0"/>
   <template class="MainWindow" parent="AdwApplicationWindow">
     <property name="title" translatable="yes">YouTube Parser</property>
-    <property name="default_width">500</property>
-    <property name="default_height">400</property>
+    <property name="default_width">800</property>
+    <property name="default_height">600</property>
     <child>
       <object class="GtkBox" id="top_content">
         <property name="orientation">vertical</property>

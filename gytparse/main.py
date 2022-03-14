@@ -62,6 +62,9 @@ class MainWindow(Adw.ApplicationWindow):
         _set_css_class(self.list_box, 'list_box')
         self.set_icon_name('gr.oscillate.gytparse')
 
+        Settings.bind('window-width', self, 'default-width', Gio.SettingsBindFlags.DEFAULT)
+        Settings.bind('window-height', self, 'default-height', Gio.SettingsBindFlags.DEFAULT)
+
         self.shortcuts = Gtk.ShortcutController()
         self.shortcuts.set_scope(Gtk.ShortcutScope.GLOBAL)
         self.add_controller(self.shortcuts)
@@ -74,7 +77,6 @@ class MainWindow(Adw.ApplicationWindow):
         shortcut.set_trigger(trigger)
         shortcut.set_action(shortcutaction)
         self.shortcuts.add_shortcut(shortcut)
-
 
     @Gtk.Template.Callback()
     def ui_button_clicked(self, *args):
