@@ -62,8 +62,8 @@ class MainWindow(Adw.ApplicationWindow):
         _set_css_class(self.list_box, 'list_box')
         self.set_icon_name('gr.oscillate.gytparse')
 
-        Settings.bind('window-width', self, 'default-width', Gio.SettingsBindFlags.DEFAULT)
-        Settings.bind('window-height', self, 'default-height', Gio.SettingsBindFlags.DEFAULT)
+        self.set_property('default-width', Settings.get_int('window-width'))
+        self.set_property('default-height', Settings.get_int('window-height'))
 
         self.shortcuts = Gtk.ShortcutController()
         self.shortcuts.set_scope(Gtk.ShortcutScope.GLOBAL)
@@ -491,6 +491,12 @@ class Application(Gtk.Application):
             flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name('YouTube Parser')
         GLib.set_prgname("gr.oscillate.gytparse")
+        self.connect('window-removed', self.window_removed)
+
+    def window_removed(self, _, window):
+        (w, h) = window.get_default_size()
+        Settings.set_int('window-width', w)
+        Settings.set_int('window-height', h)
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
