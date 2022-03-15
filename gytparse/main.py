@@ -9,13 +9,12 @@ from functools import partial
 
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
-gi.require_version("Secret", "1")
 
-from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf, Secret
+from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
 
 from .operation import PageFetcher, ThumbFetcher, VideoFetcher
 from .operation import VideoMetadataFetcher, ytdl_fmt_from_str
-from .settings import Settings, PROXY_PW_SCHEMA
+from .settings import Settings, Secrets
 
 
 def _pretty_print_size(size):
@@ -430,9 +429,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
         self.__populate_combobox('proxy-type', self.proxy_type_row)
 
-        Secret.password_lookup(PROXY_PW_SCHEMA, \
-            {"username": Settings.get_string('proxy-auth-username')}, None, \
-            self.__on_password_retrieved)
+        pw = Secrets.get(Settings.get_string('proxy-auth-username'))
+        if pw is not None:
+            self.proxy_password_entry.set_text(pw)
 
     def __populate_combobox(self, key, combo):
         schema = Settings.get_property('settings-schema')
@@ -453,11 +452,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
             self.proxy_password_entry.set_text(pw)
 
     def __on_password_changed(self, wdg):
-        Secret.password_store(PROXY_PW_SCHEMA, \
-            {"username": Settings.get_string('proxy-auth-username')},\
-            Secret.COLLECTION_DEFAULT, "Proxy authentication password", \
-            wdg.get_text(), None, \
-            lambda _, p: Secret.password_store_finish(p) )
+        uname = Settings.get_string('proxy-auth-username')
+        pw = wdg.get_text()
+        Secrets.set(uname, pw)
 
 
     @Gtk.Template.Callback()
