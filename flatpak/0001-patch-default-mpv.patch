@@ -1,0 +1,16 @@
+--- gytparse.orig/gytparse/gr.oscillate.gytparse.gschema.xml	2022-03-14 20:14:08.000000000 +0000
++++ gytparse/gytparse/gr.oscillate.gytparse.gschema.xml	2022-03-15 13:49:46.691308717 +0000
+@@ -13,11 +13,11 @@
+     </key>
+ 
+     <key name='override-mpv-path' type='b'>
+-      <default>false</default>
++      <default>true</default>
+     </key>
+ 
+     <key name='mpv-path' type='s'>
+-      <default>''</default>
++      <default>'/app/bin/mpv.sh'</default>
+     </key>
+ 
+     <key name='proxy-type' type='s'>

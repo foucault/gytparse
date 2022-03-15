@@ -1,0 +1,296 @@
+app-id: gr.oscillate.gytparse
+runtime: org.gnome.Platform
+runtime-version: '41'
+sdk: org.gnome.Sdk
+command: gytparse
+finish-args:
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --filesystem=host
+  - --device=dri
+  - --socket=pulseaudio
+  - --share=ipc
+modules:
+  - name: x264
+    config-opts:
+      - --disable-cli
+      - --enable-shared
+      - --enable-pic
+    sources:
+      - type: git
+        url: https://code.videolan.org/videolan/x264.git
+        branch: stable
+
+  - name: numa
+    config-opts:
+      - --disable-static
+      - --enable-shared
+    sources:
+      - type: archive
+        url: https://github.com/numactl/numactl/releases/download/v2.0.14/numactl-2.0.14.tar.gz
+        sha256: 826bd148c1b6231e1284e42a4db510207747484b112aee25ed6b1078756bcff6
+    cleanup:
+        - /bin
+
+  - name: x265
+    buildsystem: cmake-ninja
+    builddir: true
+    subdir: source
+    config-opts:
+      - -DENABLE_SHARED=TRUE
+      - -DBUILD_SHARED_LIBS=ON
+      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      - -DHIGH_BIT_DEPTH=TRUE
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -Wno-dev
+
+    sources:
+      - type: archive
+        url: https://bitbucket.org/multicoreware/x265_git/downloads/x265_3.5.tar.gz
+        sha256: e70a3335cacacbba0b3a20ec6fecd6783932288ebc8163ad74bcc9606477cae8
+    cleanup:
+      - /bin
+
+  - name: libvpx
+    config-opts:
+      - --disable-examples
+      - --disable-unit-tests
+      - --enable-vp9-highbitdepth
+      - --enable-pic
+      - --enable-shared
+      - --disable-static
+      - --as=yasm
+    modules:
+      - name: yasm
+        sources:
+          - type: archive
+            url: http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+            md5: fc9e586751ff789b34b1f21d572d96af
+        cleanup:
+          - /bin
+    sources:
+      - type: archive
+        url: https://github.com/webmproject/libvpx/archive/v1.11.0.tar.gz
+        sha256: 965e51c91ad9851e2337aebcc0f517440c637c506f3a03948062e3d5ea129a83
+
+  - name: aom
+    buildsystem: cmake-ninja
+    builddir: true
+    config-opts:
+      - -DBUILD_SHARED_LIBS=1
+      - -DENABLE_TESTS=0
+      - -DENABLE_NASM=ON
+      - -DCMAKE_POSITION_INDEPENDENT_CODE=ON
+      - -DCMAKE_BUILD_TYPE=Release
+    sources:
+      - type: git
+        disable-shallow-clone: true
+        url: https://aomedia.googlesource.com/aom
+        tag: v1.0.0-errata1-avif
+        commit: 4eb1e7795b9700d532af38a2d9489458a8038233
+    cleanup:
+      - /bin
+
+  - name: libass
+    config-opts:
+      - --disable-static
+      - --enable-asm
+      - --enable-harfbuzz
+      - --enable-fontconfig
+    sources:
+      - type: archive
+        url: https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz
+        sha256: 1be2df9c4485a57d78bb18c0a8ed157bc87a5a8dd48c661961c625cb112832fd
+      - type: script
+        dest-filename: autogen.sh
+        commands:
+          - autoreconf -fiv
+
+  - name: libdrm
+    buildsystem: meson
+    config-opts:
+      - -Dudev=false
+      - -Dvalgrind=false
+    sources:
+      - type: archive
+        url: https://dri.freedesktop.org/libdrm/libdrm-2.4.110.tar.xz
+        sha256: eecee4c4b47ed6d6ce1a9be3d6d92102548ea35e442282216d47d05293cf9737
+    cleanup:
+      - /bin
+
+  - name: openh264
+    buildsystem: meson
+    modules:
+      - name: gtest
+        buildsystem: cmake-ninja
+        config-opts:
+          - -DBUILD_SHARED_LIBS=ON
+          - -Dgtest_build_tests=OFF
+          - -DCMAKE_BUILD_TYPE=Release
+        sources:
+          - type: archive
+            url: https://github.com/google/googletest/archive/release-1.10.0.tar.gz
+            sha256: 9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb
+    sources:
+      - type: archive
+        url: https://github.com/cisco/openh264/archive/v2.0.0.tar.gz
+        sha256: 73c35f80cc487560d11ecabb6d31ad828bd2f59d412f9cd726cc26bfaf4561fd
+
+  - name: kvazaar
+    config-opts:
+      - --disable-static
+    sources:
+      - type: archive
+        url: https://github.com/ultravideo/kvazaar/releases/download/v1.3.0/kvazaar-1.3.0.tar.xz
+        sha256: 8916bd616539e0ac7b0b4320190b37d7bf7223299bdd7e545f52eb79a949e26d
+      - type: script
+        dest-filename: autogen.sh
+        commands:
+          - autoreconf -fiv
+
+  - name: dav1d
+    buildsystem: meson
+    sources:
+      - type: archive
+        url: http://downloads.videolan.org/pub/videolan/dav1d/0.5.2/dav1d-0.5.2.tar.xz
+        sha256: f94cf88c4a3ac2fd3cb30d688e8ef5943854d73db2dd12985a78892e76560f0a
+
+  - name: zimg
+    config-opts:
+      - --disable-static
+    sources:
+      - type: archive
+        url: https://github.com/sekrit-twc/zimg/archive/release-3.0.3.tar.gz
+        sha256: 5e002992bfe8b9d2867fdc9266dc84faca46f0bfd931acc2ae0124972b6170a7
+
+  - name: ffnvcodec
+    no-autogen: true
+    make-install-args: [PREFIX=/app]
+    sources:
+      - type: archive
+        url: https://github.com/FFmpeg/nv-codec-headers/archive/n9.1.23.1.tar.gz
+        sha256: 063f49838113c90504fd430377a6025478e2a454f812ce8a4da033e474727dc8
+
+  - name: opencl
+    buildsystem: simple
+    build-commands:
+      - install -d "${FLATPAK_DEST}/include/CL"
+      - install -Dm644 CL/* "${FLATPAK_DEST}/include/CL"
+    sources:
+      - type: git
+        url: https://github.com/KhronosGroup/OpenCL-Headers.git
+        branch: main
+
+  - name: ffmpeg
+    config-opts:
+      - --pkg-config-flags=--static
+      - --enable-hardcoded-tables
+      - --disable-debug
+      - --disable-doc
+      - --enable-pic
+      - --enable-gpl
+      - --enable-version3
+      - --enable-nonfree
+      - --disable-podpages
+      - --enable-optimizations
+      - --enable-libaom
+      - --enable-libdrm
+      - --enable-libdav1d
+      - --enable-libopenh264
+      - --enable-libkvazaar
+      - --enable-libass
+      - --enable-libfdk-aac
+      - --enable-gnutls
+      - --enable-libfontconfig
+      - --enable-libfribidi
+      - --enable-libpulse
+      - --enable-libspeex
+      - --enable-libtheora
+      - --enable-libwebp
+      - --enable-nvdec
+      - --enable-nvenc
+      - --enable-openal
+      - --enable-opengl
+      - --enable-sdl2
+      - --enable-libfreetype
+      - --enable-libmp3lame
+      - --enable-libopus
+      - --enable-libvorbis
+      - --enable-libvpx
+      - --enable-libx264
+      - --enable-libx265
+      - --enable-nonfree
+      - --enable-libzimg
+      - --enable-opencl
+    sources:
+      - type: archive
+        url: https://ffmpeg.org/releases/ffmpeg-4.2.2.tar.xz
+        sha256: cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c
+    cleanup:
+      - /share/ffmpeg
+
+  - name: gtk
+    buildsystem: meson
+    config-opts:
+      - "-Dbuild-examples=false"
+      - "-Dbuild-tests=false"
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/gtk/4.6/gtk-4.6.0.tar.xz
+        sha256: 782d5951fbfd585fc9ec76c09d07e28e6014c72db001fb567fff217fb96e4d8c
+    build-options:
+      build-args:
+        - --share=network
+
+  - name: libsass
+    buildsystem: meson
+    cleanup:
+      - "*"
+    sources:
+      - type: git
+        url: https://github.com/lazka/libsass.git
+        branch: meson
+
+  - name: sassc
+    buildsystem: meson
+    cleanup:
+      - "*"
+    sources:
+      - type: git
+        url: https://github.com/lazka/sassc.git
+        branch: meson
+
+  - name: libadwaita
+    buildsystem: meson
+    config-opts:
+      - "-Dvapi=false"
+      - "-Dexamples=false"
+      - "-Dtests=false"
+    sources:
+      - type: git
+        url: https://gitlab.gnome.org/GNOME/libadwaita.git
+        branch: main
+
+  - name: mpvsh
+    buildsystem: simple
+    build-commands:
+      - install -D mpv.sh /app/bin/mpv.sh
+    sources:
+      - type: file
+        path: mpv.sh
+
+  - name: gytparse
+    buildsystem: simple
+    sources:
+      - type: dir
+        path: ..
+      - type: patch
+        path: 0001-patch-default-mpv.patch
+    build-commands:
+      - pip3 install --prefix=${FLATPAK_DEST} requests yt-dlp dbus-python
+      - meson . _build -Dprefix=${FLATPAK_DEST}
+      - meson install -C _build
+    build-options:
+      build-args:
+        - --share=network
