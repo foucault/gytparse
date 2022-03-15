@@ -8,9 +8,15 @@ finish-args:
   - --socket=wayland
   - --socket=fallback-x11
   - --filesystem=host
-  - --device=dri
+  - --device=all
   - --socket=pulseaudio
   - --share=ipc
+  - --talk-name=org.kde.kwalletd5
+  - --talk-name=org.kde.kwalletd
+  - --talk-name=org.gnome.SettingsDaemon.MediaKeys
+  - --talk-name=org.freedesktop.Secrets
+
+cleanup:
 modules:
   - name: x264
     config-opts:
