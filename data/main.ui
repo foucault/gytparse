@@ -23,7 +23,7 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="settings_button">
-                    <property name="icon-name">gtk-preferences</property>
+                    <property name="icon-name">preferences-system-symbolic</property>
                     <signal name="clicked" handler="open_preferences_clicked"/>
                   </object>
                 </child>
@@ -38,7 +38,7 @@
               <object class="AdwViewStackPage">
                 <property name="name">youtube_page</property>
                 <property name="title" translatable="yes">_Search</property>
-                <property name="icon-name">system-search</property>
+                <property name="icon-name">system-search-symbolic</property>
                 <property name="use-underline">True</property>
                 <property name="child">
                   <object class="GtkGrid" id="main_grid">
@@ -62,7 +62,7 @@
                       <object class="GtkButton" id="ui_button">
                         <property name="child">
                           <object class="AdwButtonContent">
-                            <property name="icon_name">system-search</property>
+                            <property name="icon_name">system-search-symbolic</property>
                             <property name="label" translatable="yes">_Search</property>
                             <property name="use_underline">true</property>
                           </object>
