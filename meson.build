@@ -24,7 +24,7 @@ endif
 
 localedir = join_paths(prefix, get_option('localedir'))
 
-dependency('gtk4', version: '>= 4.5.0')
+dependency('gtk4', version: '>= 4.4.0')
 dependency('libadwaita-1', version: '>= 0.90.0')
 
 python_dir = python_bin.get_install_dir()
