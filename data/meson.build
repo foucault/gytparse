@@ -1,8 +1,8 @@
 pkgdatadir = join_paths(get_option('prefix'), get_option('datadir'), meson.project_name())
 appdir = join_paths(get_option('prefix'), get_option('datadir'), 'applications')
 
-gnome.compile_resources('gytparse',
-  'gytparse.gresource.xml',
+gnome.compile_resources('gr.oscillate.gytparse',
+  'gr.oscillate.gytparse.gresource.xml',
   gresource_bundle: true,
   install: true,
   install_dir: pkgdatadir,
