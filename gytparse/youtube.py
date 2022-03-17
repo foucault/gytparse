@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import re
 import json
 import requests
+import locale
 
 _ID_EXPR = re.compile(r'\s*window\["ytInitialData"\]\s?=\s?(.*);')
 _ID_EXPR2 = re.compile(r'\s*var\sytInitialData\s?=\s?(.*);\s?')
@@ -49,22 +50,25 @@ def _make_proxy_dict(proxy):
     }
 
 
-def yt_token_search(token=None, page_token=None, lang="en", locality="US", proxy=None):
+def yt_token_search(token=None, page_token=None, lang=None, locality=None, proxy=None):
 
     if ((token, page_token) != (None, None)) and not all((token, page_token)):
         raise Exception("Need token AND page_token for token search")
 
-    if locality is None or locality.strip() == "":
-        langcode = lang
+    if lang is None or locality is None or locality.strip() == "":
+        (lang, locality) = locale.getlocale()[0].split('_')
+        langcode = "%s-%s" % (lang, locality)
     else:
         langcode = "%s-%s" % (lang, locality)
-    acceptLang = 'Accept-Language: %s,%s;q=0.5' % (langcode, lang)
+    acceptLang = '%s,%s;q=0.5' % (langcode, lang)
 
     data = {
         'context': {
             'client': {
                 'clientName': 'WEB',
-                'clientVersion': '2.20201129.08.00'
+                'clientVersion': '2.20201129.08.00',
+                'hl': lang,
+                'gl': locality
             }
         },
         'continuation': page_token
@@ -91,12 +95,13 @@ def yt_token_search(token=None, page_token=None, lang="en", locality="US", proxy
     return (sections, token, continuation)
 
 
-def yt_search(query, page=1, lang="en", locality="US", proxy=None):
-    if locality is None or locality.strip() == "":
-        langcode = lang
+def yt_search(query, page=1, lang=None, locality=None, proxy=None):
+    if lang is None or locality is None or locality.strip() == "":
+        (lang, locality) = locale.getlocale()[0].split('_')
+        langcode = "%s-%s" % (lang, locality)
     else:
         langcode = "%s-%s" % (lang, locality)
-    acceptLang = 'Accept-Language: %s,%s;q=0.5' % (langcode, lang)
+    acceptLang = '%s,%s;q=0.5' % (langcode, lang)
 
     params = {'q': query, 'page': page}
     headers = {'Accept-Language': acceptLang}
@@ -116,17 +121,16 @@ def yt_search(query, page=1, lang="en", locality="US", proxy=None):
     continuation = (sections[1]['continuationItemRenderer']
         ['continuationEndpoint']['continuationCommand']['token'])
 
-    #print(json.dumps(sections))
 
     return (sections, apikey, continuation)
 
 
-def yt_playlist(vid, pid, lang="en", locality="US", proxy=None):
+def yt_playlist(vid, pid, lang=None, locality=None, proxy=None):
     if locality is None or locality.strip() == "":
         langcode = lang
     else:
         langcode = "%s-%s" % (lang, locality)
-    acceptLang = 'Accept-Language: %s,%s;q=0.5' % (langcode, lang)
+    acceptLang = '%s,%s;q=0.5' % (langcode, lang)
 
     params = {'v': vid, 'list': pid}
     headers = {'Accept-Language': acceptLang}
