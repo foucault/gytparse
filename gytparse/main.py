@@ -118,6 +118,8 @@ class MainWindow(Adw.ApplicationWindow):
             entry.connect('dl-request', self.__add_new_dl_request)
 
         self.__add_more_widget(apikey, continuation)
+        if clear:
+            self.scrolled_win.get_vadjustment().set_value(0);
 
     def __video_progress(self, fetcher, url, bytes_downloaded, total):
         entry = self.dls_queued[url].get_child()
