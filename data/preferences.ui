@@ -64,6 +64,19 @@
               </object>
             </child>
 
+            <child>
+              <object class="AdwComboRow" id="merge_format_row">
+                <property name="title" translatable="yes">Download file format</property>
+                <property name="use-underline">True</property>
+                <signal name="notify::selected" handler="combo_value_changed"/>
+                <property name="model">
+                  <object class="GtkStringList">
+                    <items/>
+                  </object>
+                </property>
+              </object>
+            </child>
+
           </object>
         </child>
 

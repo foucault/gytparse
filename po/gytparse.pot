@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 17:55+0000\n"
+"POT-Creation-Date: 2022-03-17 19:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,52 +69,56 @@ msgstr ""
 msgid "Highest video quality to request when downloading"
 msgstr ""
 
-#: data/preferences.ui:72
+#: data/preferences.ui:69
+msgid "Download file format"
+msgstr ""
+
+#: data/preferences.ui:85
 msgid "Proxy used to access and download videos"
 msgstr ""
 
-#: data/preferences.ui:73
+#: data/preferences.ui:86
 msgid "Proxy Settings"
 msgstr ""
 
-#: data/preferences.ui:77
+#: data/preferences.ui:90
 msgid "Type"
 msgstr ""
 
-#: data/preferences.ui:90
+#: data/preferences.ui:103
 msgid "Host"
 msgstr ""
 
-#: data/preferences.ui:102
+#: data/preferences.ui:115
 msgid "Port"
 msgstr ""
 
-#: data/preferences.ui:125
+#: data/preferences.ui:138
 msgid "Use Authentication?"
 msgstr ""
 
-#: data/preferences.ui:129
+#: data/preferences.ui:142
 msgid "Username"
 msgstr ""
 
-#: data/preferences.ui:141
+#: data/preferences.ui:154
 msgid "Password"
 msgstr ""
 
-#: gytparse/main.py:253
+#: gytparse/main.py:255
 msgid "No valid 'mpv' executable found"
 msgstr ""
 
-#: gytparse/main.py:255
+#: gytparse/main.py:257
 #, python-format
 msgid "Executable '%s' not found"
 msgstr ""
 
-#: gytparse/main.py:280
+#: gytparse/main.py:282
 msgid "Streaming is not supported over socks proxies"
 msgstr ""
 
-#: gytparse/main.py:323
+#: gytparse/main.py:325
 msgid "Fetch more"
 msgstr ""
 
@@ -146,4 +150,8 @@ msgstr ""
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:78
 msgid "Highest video quality to download"
+msgstr ""
+
+#: gytparse/gr.oscillate.gytparse.gschema.xml:88
+msgid "Output format when saving files"
 msgstr ""

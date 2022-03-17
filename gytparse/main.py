@@ -408,6 +408,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
     proxy_host_row = Gtk.Template.Child()
     proxy_port_row = Gtk.Template.Child()
     proxy_auth_expander_row = Gtk.Template.Child()
+    merge_format_row = Gtk.Template.Child()
     mpv_path_row = Gtk.Template.Child()
     mpv_path_entry = Gtk.Template.Child()
 
@@ -415,6 +416,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
         super().__init__(**kwargs)
         self.__populate_combobox('download-quality', self.download_quality_row)
         self.__populate_combobox('stream-quality', self.stream_quality_row)
+        self.__populate_combobox('output-merge-format', self.merge_format_row)
         self.proxy_host_entry.set_text(Settings.get_string('proxy-host'))
         self.proxy_port_spin.set_value(Settings.get_int('proxy-port'))
         self.proxy_password_entry.connect('changed', self.__on_password_changed)
@@ -482,6 +484,9 @@ class PreferencesWindow(Adw.PreferencesWindow):
         elif combo == self.stream_quality_row:
             strquality = self.stream_quality_row.get_selected_item().get_string()
             Settings.set_string('stream-quality', strquality)
+        elif combo == self.merge_format_row:
+            dlformat = self.merge_format_row.get_selected_item().get_string()
+            Settings.set_string('output-merge-format', dlformat)
         else:
             print('combo_value_changed called on unknown widget', combo, \
                 file=sys.stderr)

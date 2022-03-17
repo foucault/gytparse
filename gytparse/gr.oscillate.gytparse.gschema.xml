@@ -78,6 +78,16 @@
       <summary>Highest video quality to download</summary>
     </key>
 
+    <key name='output-merge-format' type='s'>
+      <choices>
+        <choice value='automatic'/>
+        <choice value='mp4'/>
+        <choice value='mkv'/>
+      </choices>
+      <default>'automatic'</default>
+      <summary>Output format when saving files</summary>
+    </key>
+
   </schema>
 
 </schemalist>

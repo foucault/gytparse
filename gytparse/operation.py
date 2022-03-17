@@ -76,6 +76,9 @@ class VideoFetcher(GObject.GObject):
         if Settings.proxy_url() is not None:
             opts['proxy'] = Settings.proxy_url()
 
+        if Settings.get_string('output-merge-format') != 'automatic':
+            opts['merge_output_format'] = Settings.get_string('output-merge-format')
+
         self.ydl = youtube_dl.YoutubeDL(opts)
         result = self.ydl.extract_info(url, download=False)
         totalfilesize = 0
