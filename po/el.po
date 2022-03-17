@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 01:19+0000\n"
+"POT-Creation-Date: 2022-03-17 17:55+0000\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -24,7 +24,6 @@ msgid "_Downloads"
 msgstr "_Λήψεις"
 
 #: data/more.ui:15
-#, fuzzy
 msgid "More"
 msgstr "Περισσότερα"
 
@@ -97,7 +96,6 @@ msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
 #: gytparse/main.py:253
-#, fuzzy
 msgid "No valid 'mpv' executable found"
 msgstr "Δε βρέθηκε έγκυρο εκτελέσιμο 'mpv'"
 
@@ -114,12 +112,18 @@ msgstr "Η αναπαρωγή δεν είναι διαθέσιμη μέσω δι
 msgid "Fetch more"
 msgstr "Περισσότερα…"
 
-#: data/gr.oscillate.gytparse.desktop:3
+#: data/gr.oscillate.gytparse.desktop.in:3
+#: data/gr.oscillate.gytparse.metainfo.xml.in:5
 msgid "YouTube Parser"
 msgstr "YouTube Parser"
 
-#: data/gr.oscillate.gytparse.desktop:4
+#: data/gr.oscillate.gytparse.desktop.in:4
 msgid "Browse, stream and download YouTube videos"
+msgstr "Αναζήτηση, αναπαραγωγή και λήψη βίντεο YouTube"
+
+#: data/gr.oscillate.gytparse.metainfo.xml.in:6
+#: data/gr.oscillate.gytparse.metainfo.xml.in:12
+msgid "Browse, stream and download youtube videos"
 msgstr "Αναζήτηση, αναπαραγωγή και λήψη βίντεο YouTube"
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:34
@@ -131,11 +135,9 @@ msgid "Proxy host or IP address"
 msgstr "Διεύθυνση διακομιστή"
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:65
-#, fuzzy
 msgid "Highest video quality to stream"
 msgstr "Μέγιστη ποιότητα αναπαραγωγής"
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:78
-#, fuzzy
 msgid "Highest video quality to download"
 msgstr "Μέγιστη ποιότητα λήψης"

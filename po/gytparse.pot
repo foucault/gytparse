@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 01:19+0000\n"
+"POT-Creation-Date: 2022-03-17 17:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -118,12 +118,18 @@ msgstr ""
 msgid "Fetch more"
 msgstr ""
 
-#: data/gr.oscillate.gytparse.desktop:3
+#: data/gr.oscillate.gytparse.desktop.in:3
+#: data/gr.oscillate.gytparse.metainfo.xml.in:5
 msgid "YouTube Parser"
 msgstr ""
 
-#: data/gr.oscillate.gytparse.desktop:4
+#: data/gr.oscillate.gytparse.desktop.in:4
 msgid "Browse, stream and download YouTube videos"
+msgstr ""
+
+#: data/gr.oscillate.gytparse.metainfo.xml.in:6
+#: data/gr.oscillate.gytparse.metainfo.xml.in:12
+msgid "Browse, stream and download youtube videos"
 msgstr ""
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:34
