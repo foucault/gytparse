@@ -204,9 +204,9 @@ class EntryContainer(Adw.Bin):
         self.entry_title.set_markup('<a class="title_link" href="https://youtu.be/%s">%s</a>' %
             (urllib.parse.quote_plus(video.videoId), html.escape(video.title)))
         if video.uploaded is None or video.uploaded != "":
-            self.entry_subtitle.set_text("%s views · %s" % (video.views, video.uploaded))
+            self.entry_subtitle.set_text(_("%s views · %s") % (video.views, video.uploaded))
         else:
-            self.entry_subtitle.set_text("%s views" % video.views)
+            self.entry_subtitle.set_text(_("%s views") % video.views)
         self.entry_uploader.set_text(video.uploader)
         if video.snippet != "":
             self.entry_snippet.set_text(video.snippet)
@@ -350,7 +350,7 @@ class DlEntryContainer(Adw.Bin):
         self.uri = uri
         self.folder = folder
         self.dl_title_label.set_text(title)
-        self.dl_subtitle_label.set_text('Added')
+        self.dl_subtitle_label.set_text(_('Added'))
         self.filesize = 0
 
         self.entry_img = Gtk.Picture.new_for_paintable(pixbuf)
@@ -365,7 +365,7 @@ class DlEntryContainer(Adw.Bin):
 
     def __update_progress_cb(self, progress):
         self.dl_progressbar.set_fraction(progress)
-        self.dl_subtitle_label.set_text("Downloading… – %3d%%" %
+        self.dl_subtitle_label.set_text(_("Downloading… – %3d%%") %
             (int(progress*100.0)))
 
     def set_progress(self, progress):
@@ -373,7 +373,7 @@ class DlEntryContainer(Adw.Bin):
 
     def set_completed(self):
         self.dl_progressbar.set_fraction(1.0)
-        self.dl_subtitle_label.set_text("Completed – Saved to: %s" % (self.folder))
+        self.dl_subtitle_label.set_text(_("Completed – Saved to: %s") % (self.folder))
 
     def metadata_found(self, fetcher, result):
         metadata = fetcher.get_metadata(result)

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 20:18+0000\n"
+"POT-Creation-Date: 2022-03-17 20:31+0000\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -99,6 +99,16 @@ msgstr "Όνομα χρήστη"
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
+#: gytparse/main.py:207
+#, python-format
+msgid "%s views · %s"
+msgstr "%s προβολές · %s"
+
+#: gytparse/main.py:209
+#, python-format
+msgid "%s views"
+msgstr "%s προβολές"
+
 #: gytparse/main.py:255
 msgid "No valid 'mpv' executable found"
 msgstr "Δε βρέθηκε έγκυρο εκτελέσιμο 'mpv'"
@@ -115,6 +125,20 @@ msgstr "Η αναπαρωγή δεν είναι διαθέσιμη μέσω δι
 #: gytparse/main.py:325
 msgid "Fetch more"
 msgstr "Περισσότερα…"
+
+#: gytparse/main.py:353
+msgid "Added"
+msgstr "Προστέθηκε"
+
+#: gytparse/main.py:368
+#, python-format
+msgid "Downloading… – %3d%%"
+msgstr "Λήψη… – %3d%%"
+
+#: gytparse/main.py:376
+#, python-format
+msgid "Completed – Saved to: %s"
+msgstr "Ολοκληρώθηκε – Αποθηκεύθηκε στο: %s"
 
 #: gytparse/main.py:471 gytparse/settings.py:10
 msgid "none"

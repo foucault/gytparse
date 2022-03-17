@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 20:18+0000\n"
+"POT-Creation-Date: 2022-03-17 20:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,6 +105,16 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
+#: gytparse/main.py:207
+#, python-format
+msgid "%s views · %s"
+msgstr ""
+
+#: gytparse/main.py:209
+#, python-format
+msgid "%s views"
+msgstr ""
+
 #: gytparse/main.py:255
 msgid "No valid 'mpv' executable found"
 msgstr ""
@@ -120,6 +130,20 @@ msgstr ""
 
 #: gytparse/main.py:325
 msgid "Fetch more"
+msgstr ""
+
+#: gytparse/main.py:353
+msgid "Added"
+msgstr ""
+
+#: gytparse/main.py:368
+#, python-format
+msgid "Downloading… – %3d%%"
+msgstr ""
+
+#: gytparse/main.py:376
+#, python-format
+msgid "Completed – Saved to: %s"
 msgstr ""
 
 #: gytparse/main.py:471 gytparse/settings.py:10
