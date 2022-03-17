@@ -250,9 +250,9 @@ class EntryContainer(Adw.Bin):
             mpv = shutil.which('mpv')
 
         if mpv is None:
-            error_msg = "No valid 'mpv' executable found"
+            error_msg = _("No valid 'mpv' executable found")
         elif not os.path.exists(mpv):
-            error_msg = "Executable '%s' not found" % mpv
+            error_msg = _("Executable '%s' not found") % mpv
         else:
             error_msg = None
 
@@ -277,7 +277,7 @@ class EntryContainer(Adw.Bin):
             dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE, \
-                text="Streaming is not supported over socks proxies")
+                text=_("Streaming is not supported over socks proxies"))
             dialog.set_modal(True)
             dialog.connect('response', lambda dlg, _: dlg.destroy())
             dialog.show()
@@ -314,10 +314,13 @@ class MoreWidget(Adw.Bin):
 
     __gtype_name__ = 'MoreWidget'
 
+    more_button = Gtk.Template.Child()
+
     def __init__(self, apikey, continuation, **kwargs):
         super().__init__(**kwargs)
         self.apikey = apikey
         self.continuation = continuation
+        self.more_button.set_label(_("Fetch more"))
 
     @GObject.Signal(arg_types=(str, str, ))
     def request_more(self, apikey, continuation):

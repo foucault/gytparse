@@ -3,9 +3,10 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="libadwaita" version="1.0"/>
   <template class="PreferencesWindow" parent="AdwPreferencesWindow">
+    <property name="title" translatable="yes">Preferences</property>
     <child>
       <object class="AdwPreferencesPage">
-        <property name="title">Preferences</property>
+        <property name="title" translatable="yes">Preferences</property>
         <property name="icon-name">gtk-preferences</property>
 
         <child>

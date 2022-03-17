@@ -2,7 +2,7 @@
 
 <schemalist>
 
-  <schema path='/gr/oscillate/gytparse/' id='gr.oscillate.gytparse'>
+  <schema path='/gr/oscillate/gytparse/' id='gr.oscillate.gytparse' gettext-domain='gytparse'>
 
     <key name='window-width' type='i'>
       <default>800</default>

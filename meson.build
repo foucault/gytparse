@@ -33,6 +33,7 @@ DATA_DIR = join_paths(get_option('prefix'), get_option('datadir'), meson.project
 
 subdir('gytparse')
 subdir('data')
+subdir('po')
 
 gnome.post_install(
   gtk_update_icon_cache: true,

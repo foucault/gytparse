@@ -1,0 +1,19 @@
+# UI files
+
+data/dlentry.ui
+data/entry.ui
+data/main.ui
+data/more.ui
+data/preferences.ui
+
+# Sources
+
+gytparse/main.py
+gytparse/operation.py
+gytparse/settings.py
+gytparse/youtube.py
+
+# Misc data
+
+data/gr.oscillate.gytparse.desktop
+gytparse/gr.oscillate.gytparse.gschema.xml
