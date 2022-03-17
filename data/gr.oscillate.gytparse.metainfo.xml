@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>gr.oscillate.gytparse</id>
+
+  <name>YouTube Parser</name>
+  <summary>Browse, stream and download youtube videos</summary>
+
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>MPL-2.0</project_license>
+
+  <description>
+    <p>
+      Browse, stream and download youtube videos
+    </p>
+  </description>
+
+  <launchable type="desktop-id">gr.oscillate.gytparse.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <image>https://raw.githubusercontent.com/foucault/gytparse/master/data/screenshots/gytparse-01-main.png</image>
+    </screenshot>
+  </screenshots>
+</component>
