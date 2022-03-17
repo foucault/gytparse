@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 19:43+0000\n"
+"POT-Creation-Date: 2022-03-17 20:18+0000\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -116,6 +116,18 @@ msgstr "Η αναπαρωγή δεν είναι διαθέσιμη μέσω δι
 msgid "Fetch more"
 msgstr "Περισσότερα…"
 
+#: gytparse/main.py:471 gytparse/settings.py:10
+msgid "none"
+msgstr "Κανένα"
+
+#: gytparse/settings.py:8
+msgid "best"
+msgstr "Καλύτερη"
+
+#: gytparse/settings.py:9
+msgid "automatic"
+msgstr "Αυτόματα"
+
 #: data/gr.oscillate.gytparse.desktop.in:3
 #: data/gr.oscillate.gytparse.metainfo.xml.in:5
 msgid "YouTube Parser"
@@ -148,4 +160,4 @@ msgstr "Μέγιστη ποιότητα λήψης"
 
 #: gytparse/gr.oscillate.gytparse.gschema.xml:88
 msgid "Output format when saving files"
-msgstr ""
+msgstr "Τύπος αρχείου αποθύκευσης"

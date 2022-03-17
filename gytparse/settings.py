@@ -4,6 +4,15 @@ from types import MethodType
 from gi.repository import Gio
 
 
+CHOICE_TO_NAME = {
+    'best': _('best'),
+    'automatic': _('automatic'),
+    'none': _('none')
+}
+
+NAME_TO_CHOICE = dict([reversed(i) for i in CHOICE_TO_NAME.items()])
+
+
 class _KDERetriever:
 
     def __init__(self):
@@ -92,9 +101,21 @@ def __current_proxy_url(slf):
         return "%s://%s@%s:%s:%d/" % (proxy_type, user, pw, proxy_host, proxy_port)
 
 
+def __get_i18n_string(slf, key):
+    value = Settings.get_string(key)
+    return CHOICE_TO_NAME.get(value, value)
+
+
+def __set_i18n_string(slf, key, value):
+    actual_value = NAME_TO_CHOICE.get(value, value)
+    Settings.set_string(key, actual_value)
+
+
 def __make_settings(resource='gr.oscillate.gytparse'):
     settings = Gio.Settings.new(resource)
     settings.proxy_url = MethodType(__current_proxy_url, settings)
+    settings.get_i18n_string = MethodType(__get_i18n_string, settings)
+    settings.set_i18n_string = MethodType(__set_i18n_string, settings)
 
     return settings
 

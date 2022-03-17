@@ -444,10 +444,10 @@ class PreferencesWindow(Adw.PreferencesWindow):
         schema = Settings.get_property('settings-schema')
         try:
             choices = schema.get_key(key).get_range()[1]
-            value = Settings.get_string(key)
+            value = Settings.get_i18n_string(key)
             model = combo.get_model()
             for (i, c) in enumerate(choices):
-                model.append(c)
+                model.append(_(c))
                 if c == value:
                     combo.set_selected(i)
         except Exception as exc:
@@ -465,28 +465,29 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
 
     @Gtk.Template.Callback()
-    def combo_value_changed(self, combo, _):
+    def combo_value_changed(self, combo, __):
         if combo == self.proxy_type_row:
             proxy = self.proxy_type_row.get_selected_item().get_string()
-            self.proxy_host_row.set_sensitive(proxy != 'none')
-            self.proxy_host_row.set_selectable(proxy != 'none')
-            self.proxy_host_row.set_activatable(proxy != 'none')
-            self.proxy_port_row.set_sensitive(proxy != 'none')
-            self.proxy_port_row.set_selectable(proxy != 'none')
-            self.proxy_port_row.set_activatable(proxy != 'none')
-            self.proxy_auth_expander_row.set_sensitive(proxy != 'none')
-            self.proxy_auth_expander_row.set_selectable(proxy != 'none')
-            self.proxy_auth_expander_row.set_activatable(proxy != 'none')
-            Settings.set_string('proxy-type', proxy)
+            checkvalue = _('none')
+            self.proxy_host_row.set_sensitive(proxy != checkvalue)
+            self.proxy_host_row.set_selectable(proxy != checkvalue)
+            self.proxy_host_row.set_activatable(proxy != checkvalue)
+            self.proxy_port_row.set_sensitive(proxy != checkvalue)
+            self.proxy_port_row.set_selectable(proxy != checkvalue)
+            self.proxy_port_row.set_activatable(proxy != checkvalue)
+            self.proxy_auth_expander_row.set_sensitive(proxy != checkvalue)
+            self.proxy_auth_expander_row.set_selectable(proxy != checkvalue)
+            self.proxy_auth_expander_row.set_activatable(proxy != checkvalue)
+            Settings.set_i18n_string('proxy-type', proxy)
         elif combo == self.download_quality_row:
             dlquality = self.download_quality_row.get_selected_item().get_string()
-            Settings.set_string('download-quality', dlquality)
+            Settings.set_i18n_string('download-quality', dlquality)
         elif combo == self.stream_quality_row:
             strquality = self.stream_quality_row.get_selected_item().get_string()
-            Settings.set_string('stream-quality', strquality)
+            Settings.set_i18n_string('stream-quality', strquality)
         elif combo == self.merge_format_row:
             dlformat = self.merge_format_row.get_selected_item().get_string()
-            Settings.set_string('output-merge-format', dlformat)
+            Settings.set_i18n_string('output-merge-format', dlformat)
         else:
             print('combo_value_changed called on unknown widget', combo, \
                 file=sys.stderr)

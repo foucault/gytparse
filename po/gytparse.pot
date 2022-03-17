@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 19:43+0000\n"
+"POT-Creation-Date: 2022-03-17 20:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,6 +120,18 @@ msgstr ""
 
 #: gytparse/main.py:325
 msgid "Fetch more"
+msgstr ""
+
+#: gytparse/main.py:471 gytparse/settings.py:10
+msgid "none"
+msgstr ""
+
+#: gytparse/settings.py:8
+msgid "best"
+msgstr ""
+
+#: gytparse/settings.py:9
+msgid "automatic"
 msgstr ""
 
 #: data/gr.oscillate.gytparse.desktop.in:3
