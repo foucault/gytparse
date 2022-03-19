@@ -17,4 +17,4 @@ gytparse/youtube.py
 
 data/gr.oscillate.gytparse.desktop.in
 data/gr.oscillate.gytparse.metainfo.xml.in
-gytparse/gr.oscillate.gytparse.gschema.xml
+data/gr.oscillate.gytparse.gschema.xml
