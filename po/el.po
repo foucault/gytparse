@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 20:31+0000\n"
+"POT-Creation-Date: 2022-03-20 14:11+0000\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -99,48 +99,53 @@ msgstr "Όνομα χρήστη"
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: gytparse/main.py:207
+#: gytparse/main.py:211
 #, python-format
 msgid "%s views · %s"
 msgstr "%s προβολές · %s"
 
-#: gytparse/main.py:209
+#: gytparse/main.py:213
 #, python-format
 msgid "%s views"
 msgstr "%s προβολές"
 
-#: gytparse/main.py:255
+#: gytparse/main.py:274
+#, python-format
+msgid "An error has occurred while loading video: %s"
+msgstr "Προέκυψε σφάλμα κατά τη φόρτωση του βίντεο: %s"
+
+#: gytparse/main.py:291
 msgid "No valid 'mpv' executable found"
 msgstr "Δε βρέθηκε έγκυρο εκτελέσιμο 'mpv'"
 
-#: gytparse/main.py:257
+#: gytparse/main.py:293
 #, python-format
 msgid "Executable '%s' not found"
 msgstr "Το εκτελέσιμο '%s' δεν βρέθηκε"
 
-#: gytparse/main.py:282
+#: gytparse/main.py:312
 msgid "Streaming is not supported over socks proxies"
 msgstr "Η αναπαρωγή δεν είναι διαθέσιμη μέσω διαμεσολαβητή SOCKS"
 
-#: gytparse/main.py:325
+#: gytparse/main.py:359
 msgid "Fetch more"
 msgstr "Περισσότερα…"
 
-#: gytparse/main.py:353
+#: gytparse/main.py:387
 msgid "Added"
 msgstr "Προστέθηκε"
 
-#: gytparse/main.py:368
+#: gytparse/main.py:402
 #, python-format
 msgid "Downloading… – %3d%%"
 msgstr "Λήψη… – %3d%%"
 
-#: gytparse/main.py:376
+#: gytparse/main.py:410
 #, python-format
 msgid "Completed – Saved to: %s"
 msgstr "Ολοκληρώθηκε – Αποθηκεύθηκε στο: %s"
 
-#: gytparse/main.py:471 gytparse/settings.py:10
+#: gytparse/main.py:505 gytparse/settings.py:10
 msgid "none"
 msgstr "Κανένα"
 
@@ -166,22 +171,22 @@ msgstr "Αναζήτηση, αναπαραγωγή και λήψη βίντεο 
 msgid "Browse, stream and download youtube videos"
 msgstr "Αναζήτηση, αναπαραγωγή και λήψη βίντεο YouTube"
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:34
+#: data/gr.oscillate.gytparse.gschema.xml:34
 msgid "Proxy type to use"
 msgstr "Είδος διαμεσολαβητή"
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:39
+#: data/gr.oscillate.gytparse.gschema.xml:39
 msgid "Proxy host or IP address"
 msgstr "Διεύθυνση διακομιστή"
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:65
+#: data/gr.oscillate.gytparse.gschema.xml:65
 msgid "Highest video quality to stream"
 msgstr "Μέγιστη ποιότητα αναπαραγωγής"
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:78
+#: data/gr.oscillate.gytparse.gschema.xml:78
 msgid "Highest video quality to download"
 msgstr "Μέγιστη ποιότητα λήψης"
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:88
+#: data/gr.oscillate.gytparse.gschema.xml:88
 msgid "Output format when saving files"
 msgstr "Τύπος αρχείου αποθύκευσης"

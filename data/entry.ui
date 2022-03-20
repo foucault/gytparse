@@ -60,25 +60,38 @@
         </child>
 
         <child>
-          <object class="GtkBox" id="button_box">
-            <property name="orientation">vertical</property>
-            <style><class name="linked"/></style>
-
+          <object class="GtkStack" id="button_stack">
             <child>
-              <object class="GtkButton" id="play_button">
-                <property name="icon-name">media-playback-start-symbolic</property>
-                <signal name="clicked" handler="entry_play_clicked"/>
+              <object class="GtkBox" id="button_box">
+                <property name="orientation">vertical</property>
+                <style><class name="linked"/></style>
+
+                <child>
+                  <object class="GtkButton" id="play_button">
+                    <property name="icon-name">media-playback-start-symbolic</property>
+                    <signal name="clicked" handler="entry_play_clicked"/>
+                  </object>
+                </child>
+
+                <child>
+                  <object class="GtkButton" id="save_button">
+                    <property name="icon_name">document-save-symbolic</property>
+                    <signal name="clicked" handler="entry_save_clicked"/>
+                  </object>
+                </child>
+
               </object>
             </child>
 
             <child>
-              <object class="GtkButton" id="save_button">
-                <property name="icon_name">document-save-symbolic</property>
-                <signal name="clicked" handler="entry_save_clicked"/>
+              <object class="GtkProgressBar" id="loading_spinner">
+                <property name="halign">center</property>
+                <property name="orientation">vertical</property>
               </object>
             </child>
 
           </object>
+
         </child>
       </object>
     </child>

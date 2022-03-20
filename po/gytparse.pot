@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-17 20:31+0000\n"
+"POT-Creation-Date: 2022-03-20 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,48 +105,53 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: gytparse/main.py:207
+#: gytparse/main.py:211
 #, python-format
 msgid "%s views · %s"
 msgstr ""
 
-#: gytparse/main.py:209
+#: gytparse/main.py:213
 #, python-format
 msgid "%s views"
 msgstr ""
 
-#: gytparse/main.py:255
+#: gytparse/main.py:274
+#, python-format
+msgid "An error has occurred while loading video: %s"
+msgstr ""
+
+#: gytparse/main.py:291
 msgid "No valid 'mpv' executable found"
 msgstr ""
 
-#: gytparse/main.py:257
+#: gytparse/main.py:293
 #, python-format
 msgid "Executable '%s' not found"
 msgstr ""
 
-#: gytparse/main.py:282
+#: gytparse/main.py:312
 msgid "Streaming is not supported over socks proxies"
 msgstr ""
 
-#: gytparse/main.py:325
+#: gytparse/main.py:359
 msgid "Fetch more"
 msgstr ""
 
-#: gytparse/main.py:353
+#: gytparse/main.py:387
 msgid "Added"
 msgstr ""
 
-#: gytparse/main.py:368
+#: gytparse/main.py:402
 #, python-format
 msgid "Downloading… – %3d%%"
 msgstr ""
 
-#: gytparse/main.py:376
+#: gytparse/main.py:410
 #, python-format
 msgid "Completed – Saved to: %s"
 msgstr ""
 
-#: gytparse/main.py:471 gytparse/settings.py:10
+#: gytparse/main.py:505 gytparse/settings.py:10
 msgid "none"
 msgstr ""
 
@@ -172,22 +177,22 @@ msgstr ""
 msgid "Browse, stream and download youtube videos"
 msgstr ""
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:34
+#: data/gr.oscillate.gytparse.gschema.xml:34
 msgid "Proxy type to use"
 msgstr ""
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:39
+#: data/gr.oscillate.gytparse.gschema.xml:39
 msgid "Proxy host or IP address"
 msgstr ""
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:65
+#: data/gr.oscillate.gytparse.gschema.xml:65
 msgid "Highest video quality to stream"
 msgstr ""
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:78
+#: data/gr.oscillate.gytparse.gschema.xml:78
 msgid "Highest video quality to download"
 msgstr ""
 
-#: gytparse/gr.oscillate.gytparse.gschema.xml:88
+#: data/gr.oscillate.gytparse.gschema.xml:88
 msgid "Output format when saving files"
 msgstr ""

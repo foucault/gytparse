@@ -121,3 +121,6 @@ def __make_settings(resource='gr.oscillate.gytparse'):
 
 
 Settings = __make_settings('gr.oscillate.gytparse')
+
+RUNTIME_DIR = os.environ.get('XDG_RUNTIME_DIR', \
+        os.path.join('/run', 'user', "%d" % os.getuid()))

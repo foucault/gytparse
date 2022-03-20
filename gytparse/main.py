@@ -15,6 +15,7 @@ from gi.repository import GObject, Gtk, Adw, Gio, GLib, Gdk, GdkPixbuf
 from .operation import PageFetcher, ThumbFetcher, VideoFetcher
 from .operation import VideoMetadataFetcher, ytdl_fmt_from_str
 from .settings import Settings, Secrets
+from .mpv import MPV
 
 
 def _pretty_print_size(size):
@@ -198,6 +199,9 @@ class EntryContainer(Adw.Bin):
     entry_subtitle = Gtk.Template.Child()
     entry_uploader = Gtk.Template.Child()
     entry_snippet = Gtk.Template.Child()
+    button_stack = Gtk.Template.Child()
+    loading_spinner = Gtk.Template.Child()
+    button_box = Gtk.Template.Child()
 
     def __init__(self, video, **kwargs):
         super().__init__(**kwargs)
@@ -211,6 +215,8 @@ class EntryContainer(Adw.Bin):
         if video.snippet != "":
             self.entry_snippet.set_text(video.snippet)
         self.video = video
+        self.__mpv_video_loaded_sid = None
+        self.__mpv_video_failed_sid = None
 
         fetcher = ThumbFetcher(video.thumbnail)
         fetcher.fetch_async(None, self.thumb_found)
@@ -243,9 +249,39 @@ class EntryContainer(Adw.Bin):
             _set_css_class(self.entry_img, 'entry_img')
             self.layout_box.prepend(widget)
 
+    def set_loading(self, loading, sid):
+        if loading:
+            self.button_stack.set_visible_child(self.loading_spinner)
+            GLib.timeout_add(200, self.__on_loading_timeout)
+            self.__mpv_video_loaded_sid = sid
+        else:
+            self.button_stack.set_visible_child(self.button_box)
+            MPV.disconnect(self.__mpv_video_loaded_sid)
+            self.__mpv_video_loaded_sid = None
+            MPV.disconnect(self.__mpv_video_failed_sid)
+            self.__mpv_video_failed_sid = None
+
+    def __on_loading_timeout(self, *args):
+        if self.__mpv_video_loaded_sid is not None:
+            self.loading_spinner.pulse()
+            # we are still loading; call it again
+            return True
+        # all done
+        return False
+
+    def __on_video_failed(self, src, reason):
+        self.set_loading(False, None)
+        msg = _("An error has occurred while loading video: %s") % reason
+        dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
+            message_type=Gtk.MessageType.ERROR,
+            buttons=Gtk.ButtonsType.CLOSE, \
+            text=msg)
+        dialog.set_modal(True)
+        dialog.connect('response', lambda dlg, _: dlg.destroy())
+        GLib.idle_add(dialog.show)
+
     @Gtk.Template.Callback()
     def entry_play_clicked(self, *args):
-
         if Settings.get_boolean('override-mpv-path'):
             mpv = Settings.get_string('mpv-path')
         else:
@@ -268,14 +304,8 @@ class EntryContainer(Adw.Bin):
             dialog.show()
             return
 
-        fmt = ytdl_fmt_from_str(Settings.get_string('stream-quality'))
-
         uri = "https://youtu.be/%s" % urllib.parse.quote_plus(self.video.videoId)
-        flags = GLib.SPAWN_DO_NOT_REAP_CHILD|GLib.SPAWN_STDERR_TO_DEV_NULL|GLib.SPAWN_STDOUT_TO_DEV_NULL
-        proxy = Settings.proxy_url()
-        if proxy is None:
-            command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, uri], flags=flags)
-        elif Settings.get_string('proxy-type') == 'socks5':
+        if Settings.get_string('proxy-type') == 'socks5':
             dialog = Gtk.MessageDialog(transient_for=self.get_root(), \
                 message_type=Gtk.MessageType.ERROR,
                 buttons=Gtk.ButtonsType.CLOSE, \
@@ -284,9 +314,14 @@ class EntryContainer(Adw.Bin):
             dialog.connect('response', lambda dlg, _: dlg.destroy())
             dialog.show()
             return
-        else:
-            command = GLib.spawn_async([mpv, "--ytdl-format=%s" % fmt, \
-                "--ytdl-raw-options-append=proxy=%s" % proxy, uri], flags=flags)
+
+        MPV.play_url(mpv, uri)
+
+        self.__mpv_video_failed_sid = MPV.connect('video-loading-failed', \
+            self.__on_video_failed)
+
+        sid = MPV.connect('video-loaded', lambda *args: self.set_loading(False, None))
+        self.set_loading(True, sid)
 
     @Gtk.Template.Callback()
     def entry_save_clicked(self, *args):
@@ -297,7 +332,6 @@ class EntryContainer(Adw.Bin):
                 self.dl_request.emit(self.video.title, uri, \
                     chooser.get_file().get_path(),\
                     self.entry_img.get_paintable())
-
 
         parent = self.get_root()
         self.dialog = Gtk.FileChooserNative.new(title="Select folder",
@@ -492,6 +526,7 @@ class PreferencesWindow(Adw.PreferencesWindow):
             print('combo_value_changed called on unknown widget', combo, \
                 file=sys.stderr)
 
+
 class Application(Gtk.Application):
 
     def __init__(self):
@@ -505,6 +540,7 @@ class Application(Gtk.Application):
         (w, h) = window.get_default_size()
         Settings.set_int('window-width', w)
         Settings.set_int('window-height', h)
+        MPV.terminate()
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
