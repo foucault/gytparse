@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-20 14:11+0000\n"
+"POT-Creation-Date: 2022-03-27 02:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,53 +105,61 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: gytparse/main.py:211
+#: gytparse/main.py:212
 #, python-format
 msgid "%s views · %s"
 msgstr ""
 
-#: gytparse/main.py:213
+#: gytparse/main.py:214
 #, python-format
 msgid "%s views"
 msgstr ""
 
-#: gytparse/main.py:274
+#: gytparse/main.py:275
 #, python-format
 msgid "An error has occurred while loading video: %s"
 msgstr ""
 
-#: gytparse/main.py:291
+#: gytparse/main.py:292
 msgid "No valid 'mpv' executable found"
 msgstr ""
 
-#: gytparse/main.py:293
+#: gytparse/main.py:294
 #, python-format
 msgid "Executable '%s' not found"
 msgstr ""
 
-#: gytparse/main.py:312
+#: gytparse/main.py:313
 msgid "Streaming is not supported over socks proxies"
 msgstr ""
 
-#: gytparse/main.py:359
+#: gytparse/main.py:360
 msgid "Fetch more"
 msgstr ""
 
-#: gytparse/main.py:387
+#: gytparse/main.py:388
 msgid "Added"
 msgstr ""
 
-#: gytparse/main.py:402
+#: gytparse/main.py:403
 #, python-format
 msgid "Downloading… – %3d%%"
 msgstr ""
 
-#: gytparse/main.py:410
+#: gytparse/main.py:412
 #, python-format
 msgid "Completed – Saved to: %s"
 msgstr ""
 
-#: gytparse/main.py:505 gytparse/settings.py:10
+#: gytparse/main.py:414
+msgid "Cancelled by user"
+msgstr ""
+
+#: gytparse/main.py:416
+msgid "Stopped – unknown status"
+msgstr ""
+
+#: gytparse/main.py:511 gytparse/settings.py:10
 msgid "none"
 msgstr ""
 

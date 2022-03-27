@@ -122,13 +122,14 @@ class MainWindow(Adw.ApplicationWindow):
         if clear:
             self.scrolled_win.get_vadjustment().set_value(0);
 
-    def __video_progress(self, fetcher, url, bytes_downloaded, total):
-        entry = self.dls_queued[url].get_child()
-        entry.set_progress(bytes_downloaded/total)
+    def __video_progress(self, fetcher, url, bytes_downloaded, total, status):
+        if status is None or status == 'finished':
+            entry = self.dls_queued[url].get_child()
+            entry.set_progress(bytes_downloaded/total)
 
-    def __video_completed(self, fetcher, url):
+    def __video_completed(self, fetcher, url, status):
         entry = self.dls_queued[url].get_child()
-        entry.set_completed()
+        entry.set_completed(status)
 
     def __video_cancel(self, _, url):
         self.video_fetcher.unqueue_video(url)
@@ -405,9 +406,14 @@ class DlEntryContainer(Adw.Bin):
     def set_progress(self, progress):
         GLib.idle_add(self.__update_progress_cb, progress)
 
-    def set_completed(self):
-        self.dl_progressbar.set_fraction(1.0)
-        self.dl_subtitle_label.set_text(_("Completed – Saved to: %s") % (self.folder))
+    def set_completed(self, status='finished'):
+        if status == 'finished':
+            self.dl_progressbar.set_fraction(1.0)
+            self.dl_subtitle_label.set_text(_("Completed – Saved to: %s") % (self.folder))
+        elif status == 'cancelled':
+            GLib.idle_add(self.dl_subtitle_label.set_text, _("Cancelled by user"))
+        else:
+            self.dl_subtitle_label.set_text(_("Stopped – unknown status"))
 
     def metadata_found(self, fetcher, result):
         metadata = fetcher.get_metadata(result)

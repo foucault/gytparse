@@ -69,7 +69,6 @@
             <child>
               <object class="GtkButton" id="cancel_button">
                 <property name="icon-name">process-stop-symbolic</property>
-                <property name="sensitive">False</property>
                 <signal name="clicked" handler="cancel_clicked"/>
               </object>
             </child>

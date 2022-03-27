@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-20 14:11+0000\n"
+"POT-Creation-Date: 2022-03-27 02:08+0100\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -99,53 +99,61 @@ msgstr "Όνομα χρήστη"
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
-#: gytparse/main.py:211
+#: gytparse/main.py:212
 #, python-format
 msgid "%s views · %s"
 msgstr "%s προβολές · %s"
 
-#: gytparse/main.py:213
+#: gytparse/main.py:214
 #, python-format
 msgid "%s views"
 msgstr "%s προβολές"
 
-#: gytparse/main.py:274
+#: gytparse/main.py:275
 #, python-format
 msgid "An error has occurred while loading video: %s"
 msgstr "Προέκυψε σφάλμα κατά τη φόρτωση του βίντεο: %s"
 
-#: gytparse/main.py:291
+#: gytparse/main.py:292
 msgid "No valid 'mpv' executable found"
 msgstr "Δε βρέθηκε έγκυρο εκτελέσιμο 'mpv'"
 
-#: gytparse/main.py:293
+#: gytparse/main.py:294
 #, python-format
 msgid "Executable '%s' not found"
 msgstr "Το εκτελέσιμο '%s' δεν βρέθηκε"
 
-#: gytparse/main.py:312
+#: gytparse/main.py:313
 msgid "Streaming is not supported over socks proxies"
 msgstr "Η αναπαρωγή δεν είναι διαθέσιμη μέσω διαμεσολαβητή SOCKS"
 
-#: gytparse/main.py:359
+#: gytparse/main.py:360
 msgid "Fetch more"
 msgstr "Περισσότερα…"
 
-#: gytparse/main.py:387
+#: gytparse/main.py:388
 msgid "Added"
 msgstr "Προστέθηκε"
 
-#: gytparse/main.py:402
+#: gytparse/main.py:403
 #, python-format
 msgid "Downloading… – %3d%%"
 msgstr "Λήψη… – %3d%%"
 
-#: gytparse/main.py:410
+#: gytparse/main.py:412
 #, python-format
 msgid "Completed – Saved to: %s"
 msgstr "Ολοκληρώθηκε – Αποθηκεύθηκε στο: %s"
 
-#: gytparse/main.py:505 gytparse/settings.py:10
+#: gytparse/main.py:414
+msgid "Cancelled by user"
+msgstr "Ακυρώθηκε από τον χρήστη"
+
+#: gytparse/main.py:416
+msgid "Stopped – unknown status"
+msgstr "Διεκόπη – άγνωστη κατάσταση"
+
+#: gytparse/main.py:511 gytparse/settings.py:10
 msgid "none"
 msgstr "Κανένα"
 

@@ -5,6 +5,8 @@ import signal
 import requests
 import shutil
 import time
+import weakref
+from dataclasses import dataclass
 from functools import partial
 from . import youtube
 
@@ -47,6 +49,18 @@ class _VideoFetchLogger:
         print('An error occurred while downloading:', msg, file=sys.stderr)
 
 
+@dataclass
+class _VideoDownload:
+
+    url: str
+    target: str
+    offset: int = 0
+    totalsize: int = 0
+    running: bool = False
+    status: str = None
+    pid: int = -1
+
+
 class VideoFetcher(GObject.GObject):
 
     def __init__(self):
@@ -55,13 +69,12 @@ class VideoFetcher(GObject.GObject):
         self.running = False
 
     def queue_video(self, url, target):
-        self.videos.append(\
-            {'url': url, 'target': target, 'offset': 0, 'totalsize': 0, \
-             'running': False, 'pid': -1})
+        self.videos.append(_VideoDownload(url=url, target=target))
 
     def unqueue_video(self, url):
         for v in self.videos:
-            if v['url'] == url:
+            if v.url == url:
+                v.status = 'cancelled'
                 self.__kill_process(v)
 
     def __extract_filesize(self, url):
@@ -76,21 +89,20 @@ class VideoFetcher(GObject.GObject):
         return totalfilesize
 
     def __reap_child(self, pid, status, video):
-        print('Reapping PID', pid, 'status:', status)
+        video = video()
         GLib.spawn_close_pid(pid)
-        self.video_finished.emit(video['url'])
-        video['running'] = False
+        self.video_finished.emit(video.url, video.status)
+        video.running = False
         self.videos.pop(0)
 
     def __kill_process(self, video):
-        print('Killing PID', video['pid'])
-        pid = video['pid']
+        pid = video.pid
         if pid > 0:
             os.kill(pid, signal.SIGINT)
 
     def __fetch_inner(self, video):
-        url = video['url']
-        target = video['target']
+        url = video.url
+        target = video.target
 
         ytdl = shutil.which(YTDLNAME)
         if ytdl is None:
@@ -99,7 +111,7 @@ class VideoFetcher(GObject.GObject):
         fmt = ytdl_fmt_from_str(Settings.get_string('download-quality'))
         proxy = Settings.proxy_url()
         flags = GLib.SPAWN_DO_NOT_REAP_CHILD | GLib.SPAWN_STDERR_TO_DEV_NULL
-        video['totalsize'] = self.__extract_filesize(url)
+        video.totalsize = self.__extract_filesize(url)
 
         cmd = [ytdl]
         if proxy is not None:
@@ -111,20 +123,20 @@ class VideoFetcher(GObject.GObject):
         if Settings.get_string('output-merge-format') != 'automatic':
             cmd.append("--merge-output-format=%s" % Settings.get_string('output-merge-format'))
         cmd.append('--output='+ os.path.join(target, '%(title)s.%(ext)s'))
-        cmd.append(video['url'])
+        cmd.append(video.url)
 
-        self.video_starting.emit(url, video['totalsize'])
-        video['running'] = True
+        self.video_starting.emit(url, video.totalsize)
+        video.running = True
         (pid, _, cstdout, _) = \
             GLib.spawn_async(cmd, standard_output=True, standard_error=False, flags=flags)
-        video['pid'] = pid
+        video.pid = pid
         GLib.child_watch_add(\
             GLib.PRIORITY_DEFAULT_IDLE, pid, \
-            partial(self.__reap_child, video=video))
+            partial(self.__reap_child, video=weakref.ref(video)))
 
         with os.fdopen(cstdout, 'r') as fh:
-            while video['running']:
-                if video['offset'] >= video['totalsize']:
+            while video.running:
+                if video.offset >= video.totalsize:
                     # download has finished and video is muxing
                     # wait for ytdl to exit
                     time.sleep(0.1)
@@ -135,10 +147,16 @@ class VideoFetcher(GObject.GObject):
                     continue
                 received = int(received)
                 if status == 'downloading':
-                    total_so_far = video['offset'] + received
-                    self.video_progress.emit(video['url'], total_so_far, video['totalsize'])
+                    total_so_far = video.offset + received
+                    self.video_progress.emit(video.url, total_so_far, \
+                        video.totalsize, video.status)
                 elif status == 'finished':
-                    video['offset'] += received
+                    video.offset += received
+                    # if the video does not already have a status
+                    # for example: 'cancelled' or 'failed' it means
+                    # the loop ended up cleanly
+                    if video.status is None:
+                        video.status = 'finished'
 
     def fetch(self):
 
@@ -164,12 +182,12 @@ class VideoFetcher(GObject.GObject):
     def video_starting(self, url, size):
         pass
 
-    @GObject.Signal(arg_types=(str,))
-    def video_finished(self, url):
+    @GObject.Signal(arg_types=(str, str))
+    def video_finished(self, url, status):
         pass
 
-    @GObject.Signal(arg_types=(str, int, int))
-    def video_progress(self, url, bytes_downloaded, bytes_total):
+    @GObject.Signal(arg_types=(str, int, int, str))
+    def video_progress(self, url, bytes_downloaded, bytes_total, status):
         pass
 
 
