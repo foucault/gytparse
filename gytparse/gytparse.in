@@ -29,6 +29,6 @@ if __name__ == '__main__':
         resource._register()
 
     from gytparse import main
-    sys.exit(main.main(VERSION))
+    sys.exit(main.main(version=VERSION))
 
 # vim:ft=python

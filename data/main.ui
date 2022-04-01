@@ -22,9 +22,9 @@
                   </object>
                 </child>
                 <child>
-                  <object class="GtkButton" id="settings_button">
-                    <property name="icon-name">preferences-system-symbolic</property>
-                    <signal name="clicked" handler="open_preferences_clicked"/>
+                  <object class="GtkMenuButton" id="menu_button">
+                    <property name="icon-name">open-menu-symbolic</property>
+                    <property name="menu-model">primary_menu</property>
                   </object>
                 </child>
               </object>
@@ -134,4 +134,18 @@
       </object>
     </child>
   </template>
+  <menu id="primary_menu">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Preferences</attribute>
+        <attribute name="action">app.preferences</attribute>
+      </item>
+    </section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_About YouTube Parser</attribute>
+        <attribute name="action">app.about</attribute>
+      </item>
+    </section>
+  </menu>
 </interface>

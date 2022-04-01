@@ -88,14 +88,6 @@ class MainWindow(Adw.ApplicationWindow):
     def ui_entry_activated(self, *args):
         self.__submit_new(self.ui_entry.get_text())
 
-    @Gtk.Template.Callback()
-    def open_preferences_clicked(self, *args):
-        app = self.get_application()
-        win = app.get_active_window()
-        preferences = PreferencesWindow()
-        preferences.set_transient_for(win)
-        preferences.present()
-
     def videos_found(self, fetcher, result, clear=True):
         self.ui_button.set_sensitive(True)
         self.ui_entry.set_sensitive(True)
@@ -535,12 +527,21 @@ class PreferencesWindow(Adw.PreferencesWindow):
 
 class Application(Gtk.Application):
 
-    def __init__(self):
+    def __init__(self, version):
         super().__init__(application_id="gr.oscillate.gytparse", \
             flags=Gio.ApplicationFlags.FLAGS_NONE)
         GLib.set_application_name('YouTube Parser')
         GLib.set_prgname("gr.oscillate.gytparse")
         self.connect('window-removed', self.window_removed)
+        self.version = version
+
+        self.__add_action('preferences', self.show_preferences)
+        self.__add_action('about', self.show_about)
+
+    def __add_action(self, name, cb):
+        action = Gio.SimpleAction.new(name)
+        action.connect('activate', cb)
+        self.add_action(action)
 
     def window_removed(self, _, window):
         (w, h) = window.get_default_size()
@@ -552,6 +553,27 @@ class Application(Gtk.Application):
         Gtk.Application.do_startup(self)
         Adw.init()
 
+    def show_preferences(self, *args):
+        win = self.get_active_window()
+        preferences = PreferencesWindow()
+        preferences.set_transient_for(win)
+        preferences.present()
+
+    def show_about(self, *args):
+        win = self.get_active_window()
+        about = Gtk.AboutDialog()
+        about.set_transient_for(win)
+        about.set_modal(True)
+        about.set_website('https://github.com/foucault/gytparse')
+        about.set_program_name('YouTube Parser')
+        about.set_title(_('About YouTube Parser'))
+        about.set_version(self.version)
+        about.set_comments(_('Browse, stream and download YouTube videos'))
+        about.set_logo_icon_name('gr.oscillate.gytparse')
+        about.set_license_type(Gtk.License.MPL_2_0)
+        about.set_authors(['Spyros Stathopoulos <spystath@oscillate.gr>'])
+        about.present()
+
     def do_activate(self):
         win = self.props.active_window
 
@@ -561,7 +583,7 @@ class Application(Gtk.Application):
         win.present()
 
 
-def main(*args):
+def main(*args, version=''):
 
-    app = Application()
-    app.run(sys.argv)
+    app = Application(version)
+    app.run(args)
