@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-02 00:10+0100\n"
+"POT-Creation-Date: 2022-04-02 12:31+0100\n"
 "PO-Revision-Date: 2022-03-17 00:22+0000\n"
 "Last-Translator: Spyros Stathopoulos <spystath@gmail.com>\n"
 "Language-Team: \n"
@@ -27,7 +27,11 @@ msgstr "_Λήψεις"
 msgid "_Preferences"
 msgstr "_Ρυθμίσεις"
 
-#: data/main.ui:146
+#: data/main.ui:144
+msgid "Use _Dark Theme"
+msgstr "Χρήση _σκούρου θέματος"
+
+#: data/main.ui:150
 msgid "_About YouTube Parser"
 msgstr "_Σχετικά με YouTube Parser"
 
@@ -39,71 +43,71 @@ msgstr "Περισσότερα"
 msgid "Preferences"
 msgstr "Ρυθμίσεις"
 
-#: data/preferences.ui:14
+#: data/preferences.ui:15
 msgid "Playback settings"
 msgstr "Ρυθμίσεις αναπαραγωγής"
 
-#: data/preferences.ui:15
+#: data/preferences.ui:16
 msgid "Quality settings and executables"
 msgstr "Ρυθμίσεις ποιότητας και εκτελέσιμα"
 
-#: data/preferences.ui:19
+#: data/preferences.ui:20
 msgid "Custom mpv executable?"
 msgstr "Επιλογή εκτελέσιμου mpv"
 
-#: data/preferences.ui:27
+#: data/preferences.ui:28
 msgid "Path to mpv"
 msgstr "Τοποθεσία εκτελέσιμου mpv"
 
-#: data/preferences.ui:41
+#: data/preferences.ui:43
 msgid "Streaming quality"
 msgstr "Ποιότητα αναπαραγωγής"
 
-#: data/preferences.ui:42
+#: data/preferences.ui:44
 msgid "Highest video quality to request when streaming"
 msgstr "Μέγιστη ποιότητα αναπαραγωγής"
 
-#: data/preferences.ui:55
+#: data/preferences.ui:57
 msgid "Download quality"
 msgstr "Ποιότητα λήψης"
 
-#: data/preferences.ui:56
+#: data/preferences.ui:58
 msgid "Highest video quality to request when downloading"
 msgstr "Μέγιστη ποιότητα λήψης"
 
-#: data/preferences.ui:69
+#: data/preferences.ui:71
 msgid "Download file format"
 msgstr "Τύπος αρχείου λήψης"
 
-#: data/preferences.ui:85
+#: data/preferences.ui:87
 msgid "Proxy used to access and download videos"
 msgstr "Διαμεσολαβητής πρόσβασης"
 
-#: data/preferences.ui:86
+#: data/preferences.ui:88
 msgid "Proxy Settings"
 msgstr "Ρυθμίσεις διαμεσολαβητή"
 
-#: data/preferences.ui:90
+#: data/preferences.ui:92
 msgid "Type"
 msgstr "Είδος"
 
-#: data/preferences.ui:103
+#: data/preferences.ui:105
 msgid "Host"
 msgstr "Διακομιστής"
 
-#: data/preferences.ui:115
+#: data/preferences.ui:117
 msgid "Port"
 msgstr "Θύρα"
 
-#: data/preferences.ui:138
+#: data/preferences.ui:140
 msgid "Use Authentication?"
 msgstr "Χρήση ταυτοποίησης"
 
-#: data/preferences.ui:142
+#: data/preferences.ui:144
 msgid "Username"
 msgstr "Όνομα χρήστη"
 
-#: data/preferences.ui:154
+#: data/preferences.ui:156
 msgid "Password"
 msgstr "Κωδικός πρόσβασης"
 
@@ -165,11 +169,11 @@ msgstr "Διεκόπη – άγνωστη κατάσταση"
 msgid "none"
 msgstr "Κανένα"
 
-#: gytparse/main.py:569
+#: gytparse/main.py:597
 msgid "About YouTube Parser"
 msgstr "Σχετικά με YouTube Parser"
 
-#: gytparse/main.py:571 data/gr.oscillate.gytparse.desktop.in:4
+#: gytparse/main.py:599 data/gr.oscillate.gytparse.desktop.in:4
 msgid "Browse, stream and download YouTube videos"
 msgstr "Αναζήτηση, αναπαραγωγή και λήψη βίντεο YouTube"
 

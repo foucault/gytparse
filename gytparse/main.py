@@ -535,13 +535,41 @@ class Application(Gtk.Application):
         self.connect('window-removed', self.window_removed)
         self.version = version
 
-        self.__add_action('preferences', self.show_preferences)
-        self.__add_action('about', self.show_about)
+        self.__add_cb_action('preferences', self.show_preferences)
+        self.__add_cb_action('about', self.show_about)
+        self.__setup_color_scheme_action()
 
-    def __add_action(self, name, cb):
+    def __add_cb_action(self, name, cb):
         action = Gio.SimpleAction.new(name)
         action.connect('activate', cb)
         self.add_action(action)
+
+    def __setup_color_scheme_action(self):
+        dark_mode = Settings.get_boolean('dark-mode')
+        style_manager = Adw.StyleManager.get_default()
+        if dark_mode:
+            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        else:
+            style_manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
+        action = Gio.SimpleAction.new_stateful('dark-mode', None, \
+            GLib.Variant.new_boolean(dark_mode))
+        action.connect('activate', self.__toggle_dark_mode_action)
+        action.connect('change-state', self.__change_color_scheme)
+        self.add_action(action)
+
+    def __toggle_dark_mode_action(self, action, *args):
+        state = action.get_state()
+        action.change_state(GLib.Variant.new_boolean(not state.get_boolean()))
+
+    def __change_color_scheme(self, action, state):
+        dark_mode = state.get_boolean()
+        style_manager = Adw.StyleManager.get_default()
+        if dark_mode:
+            style_manager.set_color_scheme(Adw.ColorScheme.FORCE_DARK)
+        else:
+            style_manager.set_color_scheme(Adw.ColorScheme.DEFAULT)
+        action.set_state(state)
+        Settings.set_boolean('dark-mode', dark_mode)
 
     def window_removed(self, _, window):
         (w, h) = window.get_default_size()

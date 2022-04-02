@@ -88,6 +88,10 @@
       <summary>Output format when saving files</summary>
     </key>
 
+    <key name='dark-mode' type='b'>
+      <default>false</default>
+    </key>
+
   </schema>
 
 </schemalist>

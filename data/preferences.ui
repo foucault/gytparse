@@ -10,30 +10,32 @@
         <property name="icon-name">preferences-system-symbolic</property>
 
         <child>
+
           <object class="AdwPreferencesGroup">
             <property name="title" translatable="yes">Playback settings</property>
             <property name="description" translatable="yes">Quality settings and executables</property>
 
             <child>
-                <object class="AdwExpanderRow" id="mpv_path_row">
-                    <property name="title" translatable="yes">Custom mpv executable?</property>
-                    <property name="use-underline">True</property>
-                    <property name="show_enable_switch">True</property>
-                    <property name="expanded">False</property>
-                    <property name="enable-expansion">False</property>
+              <object class="AdwExpanderRow" id="mpv_path_row">
+                <property name="title" translatable="yes">Custom mpv executable?</property>
+                <property name="use-underline">True</property>
+                <property name="show_enable_switch">True</property>
+                <property name="expanded">False</property>
+                <property name="enable-expansion">False</property>
 
+                <child>
+                  <object class="AdwActionRow">
+                    <property name="title" translatable="yes">Path to mpv</property>
+                    <property name="use-underline">True</property>
                     <child>
-                      <object class="AdwActionRow">
-                        <property name="title" translatable="yes">Path to mpv</property>
-                        <property name="use-underline">True</property>
-                        <child>
-                          <object class="GtkEntry" id="mpv_path_entry">
-                            <property name="valign">center</property>
-                          </object>
-                        </child>
+                      <object class="GtkEntry" id="mpv_path_entry">
+                        <property name="valign">center</property>
                       </object>
                     </child>
-                </object>
+                  </object>
+                </child>
+              </object>
+
             </child>
 
             <child>

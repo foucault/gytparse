@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-02 00:10+0100\n"
+"POT-Creation-Date: 2022-04-02 12:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,11 @@ msgstr ""
 msgid "_Preferences"
 msgstr ""
 
-#: data/main.ui:146
+#: data/main.ui:144
+msgid "Use _Dark Theme"
+msgstr ""
+
+#: data/main.ui:150
 msgid "_About YouTube Parser"
 msgstr ""
 
@@ -45,71 +49,71 @@ msgstr ""
 msgid "Preferences"
 msgstr ""
 
-#: data/preferences.ui:14
+#: data/preferences.ui:15
 msgid "Playback settings"
 msgstr ""
 
-#: data/preferences.ui:15
+#: data/preferences.ui:16
 msgid "Quality settings and executables"
 msgstr ""
 
-#: data/preferences.ui:19
+#: data/preferences.ui:20
 msgid "Custom mpv executable?"
 msgstr ""
 
-#: data/preferences.ui:27
+#: data/preferences.ui:28
 msgid "Path to mpv"
 msgstr ""
 
-#: data/preferences.ui:41
+#: data/preferences.ui:43
 msgid "Streaming quality"
 msgstr ""
 
-#: data/preferences.ui:42
+#: data/preferences.ui:44
 msgid "Highest video quality to request when streaming"
 msgstr ""
 
-#: data/preferences.ui:55
+#: data/preferences.ui:57
 msgid "Download quality"
 msgstr ""
 
-#: data/preferences.ui:56
+#: data/preferences.ui:58
 msgid "Highest video quality to request when downloading"
 msgstr ""
 
-#: data/preferences.ui:69
+#: data/preferences.ui:71
 msgid "Download file format"
 msgstr ""
 
-#: data/preferences.ui:85
+#: data/preferences.ui:87
 msgid "Proxy used to access and download videos"
 msgstr ""
 
-#: data/preferences.ui:86
+#: data/preferences.ui:88
 msgid "Proxy Settings"
 msgstr ""
 
-#: data/preferences.ui:90
+#: data/preferences.ui:92
 msgid "Type"
 msgstr ""
 
-#: data/preferences.ui:103
+#: data/preferences.ui:105
 msgid "Host"
 msgstr ""
 
-#: data/preferences.ui:115
+#: data/preferences.ui:117
 msgid "Port"
 msgstr ""
 
-#: data/preferences.ui:138
+#: data/preferences.ui:140
 msgid "Use Authentication?"
 msgstr ""
 
-#: data/preferences.ui:142
+#: data/preferences.ui:144
 msgid "Username"
 msgstr ""
 
-#: data/preferences.ui:154
+#: data/preferences.ui:156
 msgid "Password"
 msgstr ""
 
@@ -171,11 +175,11 @@ msgstr ""
 msgid "none"
 msgstr ""
 
-#: gytparse/main.py:569
+#: gytparse/main.py:597
 msgid "About YouTube Parser"
 msgstr ""
 
-#: gytparse/main.py:571 data/gr.oscillate.gytparse.desktop.in:4
+#: gytparse/main.py:599 data/gr.oscillate.gytparse.desktop.in:4
 msgid "Browse, stream and download YouTube videos"
 msgstr ""
 
