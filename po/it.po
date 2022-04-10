@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gytparse\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-02 10:10+0100\n"
-"PO-Revision-Date: 2022-04-02 10:10+0100\n"
+"POT-Creation-Date: 2022-04-10 11:06+0100\n"
+"PO-Revision-Date: 2022-04-10 11:06+0100\n"
 "Last-Translator: Michael Moroni <michaelmoroni at disroot dot org>\n"
 "Language-Team: Italian \n"
 "Language: it \n"
@@ -31,7 +31,11 @@ msgstr "Scaricati"
 msgid "_Preferences"
 msgstr "_Preferenze"
 
-#: data/main.ui:146
+#: data/main.ui:144
+msgid "Use _Dark Theme"
+msgstr "Usa tema scuro"
+
+#: data/main.ui:150
 msgid "_About YouTube Parser"
 msgstr "Inform_azioni"
 
@@ -43,71 +47,71 @@ msgstr "Di più"
 msgid "Preferences"
 msgstr "Preferenze"
 
-#: data/preferences.ui:14
+#: data/preferences.ui:15
 msgid "Playback settings"
 msgstr "Impostazioni riproduzione"
 
-#: data/preferences.ui:15
+#: data/preferences.ui:16
 msgid "Quality settings and executables"
-msgstr "Impostazioni sulla qualità ed eseguibile"
+msgstr "Impostazioni sulla qualità e sugli eseguibili"
 
-#: data/preferences.ui:19
+#: data/preferences.ui:20
 msgid "Custom mpv executable?"
 msgstr "Eseguibile mpv personalizzato?"
 
-#: data/preferences.ui:27
+#: data/preferences.ui:28
 msgid "Path to mpv"
 msgstr "Percorso per mpv"
 
-#: data/preferences.ui:41
+#: data/preferences.ui:43
 msgid "Streaming quality"
 msgstr "Qualità dello streaming"
 
-#: data/preferences.ui:42
+#: data/preferences.ui:44
 msgid "Highest video quality to request when streaming"
-msgstr "Richiedi la più alta qualità video per lo streaming"
+msgstr "Migliore qualità video richiesta per lo streaming"
 
-#: data/preferences.ui:55
+#: data/preferences.ui:57
 msgid "Download quality"
 msgstr "Qualità per lo scaricamento"
 
-#: data/preferences.ui:56
+#: data/preferences.ui:58
 msgid "Highest video quality to request when downloading"
-msgstr "Richiedi la più alta qualità video per lo scaricamento"
+msgstr "Migliore qualità video richiesta per lo scaricamento"
 
-#: data/preferences.ui:69
+#: data/preferences.ui:71
 msgid "Download file format"
 msgstr "Formato dei file scaricati"
 
-#: data/preferences.ui:85
+#: data/preferences.ui:87
 msgid "Proxy used to access and download videos"
 msgstr "Proxy usato per accedere e scaricare i video"
 
-#: data/preferences.ui:86
+#: data/preferences.ui:88
 msgid "Proxy Settings"
 msgstr "Impostazioni proxy"
 
-#: data/preferences.ui:90
+#: data/preferences.ui:92
 msgid "Type"
 msgstr "Tipo"
 
-#: data/preferences.ui:103
+#: data/preferences.ui:105
 msgid "Host"
 msgstr "Host"
 
-#: data/preferences.ui:115
+#: data/preferences.ui:117
 msgid "Port"
 msgstr "Porta"
 
-#: data/preferences.ui:138
+#: data/preferences.ui:140
 msgid "Use Authentication?"
 msgstr "Autenticazione richiesta?"
 
-#: data/preferences.ui:142
+#: data/preferences.ui:144
 msgid "Username"
 msgstr "Nome utente"
 
-#: data/preferences.ui:154
+#: data/preferences.ui:156
 msgid "Password"
 msgstr "Password"
 
@@ -124,11 +128,11 @@ msgstr "%s visualizzazioni"
 #: gytparse/main.py:267
 #, python-format
 msgid "An error has occurred while loading video: %s"
-msgstr "C'è stato un errore mentre veniva caricato il video %s"
+msgstr "C'è stato un errore mentre veniva caricato il video: %s"
 
 #: gytparse/main.py:284
 msgid "No valid 'mpv' executable found"
-msgstr "Non è stato trovato alcun valido eseguibile 'mpv'"
+msgstr "Non è stato trovato alcun eseguibile 'mpv' valido"
 
 #: gytparse/main.py:286
 #, python-format
@@ -169,11 +173,11 @@ msgstr "Fermato - stato sconosciuto"
 msgid "none"
 msgstr "niente"
 
-#: gytparse/main.py:569
+#: gytparse/main.py:597
 msgid "About YouTube Parser"
 msgstr "Informazioni su YouTube Parser"
 
-#: gytparse/main.py:571 data/gr.oscillate.gytparse.desktop.in:4
+#: gytparse/main.py:599 data/gr.oscillate.gytparse.desktop.in:4
 msgid "Browse, stream and download YouTube videos"
 msgstr "Naviga, guarda e scarica video di YouTube"
 
@@ -205,12 +209,12 @@ msgstr "Host proxy o indirizzo IP"
 
 #: data/gr.oscillate.gytparse.gschema.xml:65
 msgid "Highest video quality to stream"
-msgstr "La più alta qualità video per lo streaming"
+msgstr "Migliore qualità video per lo streaming"
 
 #: data/gr.oscillate.gytparse.gschema.xml:78
 msgid "Highest video quality to download"
-msgstr "La più alta qualità video per lo scaricamento"
+msgstr "Migliore qualità video per lo scaricamento"
 
 #: data/gr.oscillate.gytparse.gschema.xml:88
 msgid "Output format when saving files"
-msgstr ""
+msgstr "Mostra il formato quando vengono salvati i file"
