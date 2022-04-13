@@ -1,9 +1,12 @@
 [Desktop Entry]
 Name=YouTube Parser
+Name[it]=YouTube Parser
 Comment=Browse, stream and download YouTube videos
+Comment[it]=Cerca, guarda e scarica video di YouTube
 Exec=gytparse
 Icon=gr.oscillate.gytparse
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=AudioVideo;Video;
+Categories=AudioVideo;Video;Audio;
+X-Purism-FormFactor=Workstation;Mobile;
