@@ -3,14 +3,14 @@
   <id>gr.oscillate.gytparse</id>
 
   <name>YouTube Parser</name>
-  <summary>Browse, stream and download youtube videos</summary>
+  <summary>Browse, stream and download YouTube videos</summary>
 
   <metadata_license>FSFAP</metadata_license>
   <project_license>MPL-2.0</project_license>
 
   <description>
     <p>
-      Browse, stream and download youtube videos
+      Browse, stream and download YouTube videos
     </p>
   </description>
 
