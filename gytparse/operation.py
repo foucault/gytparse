@@ -116,10 +116,10 @@ class VideoFetcher(GObject.GObject):
         cmd = [ytdl]
         if proxy is not None:
             cmd.append('--proxy=%s' % proxy)
-        cmd.append('--quiet')
+        cmd.append('--newline')
         cmd.append('--format=%s' % fmt)
         cmd.append('--progress')
-        cmd.append('--progress-template=%(progress.status)s;;%(progress.downloaded_bytes)d')
+        cmd.append('--progress-template=;;%(progress.status)s;;%(progress.downloaded_bytes)d')
         if Settings.get_string('output-merge-format') != 'automatic':
             cmd.append("--merge-output-format=%s" % Settings.get_string('output-merge-format'))
         cmd.append('--output='+ os.path.join(target, '%(title)s.%(ext)s'))
@@ -128,7 +128,7 @@ class VideoFetcher(GObject.GObject):
         self.video_starting.emit(url, video.totalsize)
         video.running = True
         (pid, _, cstdout, _) = \
-            GLib.spawn_async(cmd, standard_output=True, standard_error=False, flags=flags)
+            GLib.spawn_async(cmd, standard_output=True, standard_error=None, flags=flags)
         video.pid = pid
         GLib.child_watch_add(\
             GLib.PRIORITY_DEFAULT_IDLE, pid, \
@@ -142,8 +142,9 @@ class VideoFetcher(GObject.GObject):
                     time.sleep(0.1)
                     continue
                 try:
-                    (status, received) = fh.readline().strip().split(';;')
-                except ValueError:
+                    line = fh.readline()
+                    (_, status, received) = line.strip().split(';;')
+                except ValueError as err:
                     continue
                 received = int(received)
                 if status == 'downloading':
