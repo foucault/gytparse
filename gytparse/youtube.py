@@ -118,8 +118,16 @@ def yt_search(query, page=1, lang=None, locality=None, proxy=None):
     (rawdata, apikey) = _find_initial_data(resp.content.decode())
     sections = (rawdata['twoColumnSearchResultsRenderer']
         ['primaryContents']['sectionListRenderer']['contents'])
-    continuation = (sections[1]['continuationItemRenderer']
-        ['continuationEndpoint']['continuationCommand']['token'])
+
+    continuation = None
+
+    for s in sections:
+        try:
+            continuation = (s['continuationItemRenderer']
+                ['continuationEndpoint']['continuationCommand']['token'])
+            break
+        except KeyError:
+            continue
 
 
     return (sections, apikey, continuation)
