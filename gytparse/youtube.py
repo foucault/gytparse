@@ -6,7 +6,10 @@ import locale
 
 _ID_EXPR = re.compile(r'\s*window\["ytInitialData"\]\s?=\s?(.*);')
 _ID_EXPR2 = re.compile(r'\s*var\sytInitialData\s?=\s?(.*);\s?')
-_ID_EXPR3 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*);</script>.*$')
+# I'm sure there's a better way to get the ytInitialData amongst the
+# endless heap of crap that YT serves but I'm tired
+_ID_EXPR3 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*)"};')
+_ID_EXPR4 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*);</script>.*$')
 _ID_INNERTUBE = re.compile(r'^.*"INNERTUBE_API_KEY"\s?:\s?"([^"]+).*$')
 _YT_WATCH = 'https://www.youtube.com/watch'
 _YT_SEARCH = 'https://www.youtube.com/results'
@@ -21,13 +24,20 @@ def _find_initial_data(text):
 
         if not result:
             match = None
-            for expr in [_ID_EXPR, _ID_EXPR2, _ID_EXPR3]:
+            match_expr = None
+            for expr in [_ID_EXPR, _ID_EXPR2, _ID_EXPR3, _ID_EXPR4]:
                 match = expr.match(line)
                 if match is not None:
+                    match_expr = expr
                     break
 
             if match is not None:
-                result = json.loads(match.group(1))['contents']
+                # reconstruct the missing bits
+                if match_expr == _ID_EXPR3:
+                    js = match.group(1)+'"}'
+                else:
+                    js = match.group(1)
+                result = json.loads(js)['contents']
 
         if not innertube_key:
             match = _ID_INNERTUBE.match(line)
