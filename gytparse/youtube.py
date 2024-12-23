@@ -76,7 +76,7 @@ def yt_token_search(token=None, page_token=None, lang=None, locality=None, proxy
         'context': {
             'client': {
                 'clientName': 'WEB',
-                'clientVersion': '2.20201129.08.00',
+                'clientVersion': '2.20241219.01.01',
                 'hl': lang,
                 'gl': locality
             }
