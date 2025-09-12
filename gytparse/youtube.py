@@ -9,7 +9,7 @@ _ID_EXPR2 = re.compile(r'\s*var\sytInitialData\s?=\s?(.*);\s?')
 # I'm sure there's a better way to get the ytInitialData amongst the
 # endless heap of crap that YT serves but I'm tired
 _ID_EXPR3 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*)"};')
-_ID_EXPR4 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*);</script>.*$')
+_ID_EXPR4 = re.compile(r'^.*var\sytInitialData\s?=\s?(.*);<\s?/script>.*$')
 _ID_INNERTUBE = re.compile(r'^.*"INNERTUBE_API_KEY"\s?:\s?"([^"]+).*$')
 _YT_WATCH = 'https://www.youtube.com/watch'
 _YT_SEARCH = 'https://www.youtube.com/results'
@@ -35,6 +35,9 @@ def _find_initial_data(text):
                 # reconstruct the missing bits
                 if match_expr == _ID_EXPR3:
                     js = match.group(1)+'"}'
+                elif match_expr == _ID_EXPR4:
+                    js = match.group(1)
+                    js = re.sub(r';\s?</\s?script><script nonce.*$', '', js)
                 else:
                     js = match.group(1)
                 result = json.loads(js)['contents']
